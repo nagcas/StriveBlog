@@ -1,0 +1,21 @@
+body {
+  font-family: "Ubuntu", sans-serif;
+  /* background-color: #e4e5e7ea; */
+  background-color: #3983952d;
+}
+
+.btn-standard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+
+.btn-standard .fa-icon {
+  display: inline-block;
+  vertical-align: middle;
+}

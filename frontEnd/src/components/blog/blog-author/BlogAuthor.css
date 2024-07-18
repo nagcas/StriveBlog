@@ -1,0 +1,37 @@
+.blog-author {
+  width: 40px;
+  height: 40px;
+}
+
+.blog-main-title { 
+  color: #fff;
+  background: rgb(60,109,168);
+  background: linear-gradient(90deg, rgba(60,109,168,1) 0%, rgba(9,121,114,0.7903536414565826) 28%, rgba(0,116,255,1) 100%);
+}
+
+
+.content-authors {
+  margin-top: 130px;
+}
+
+.author-card {
+  padding: 20px;
+  border-radius: 15px;
+  transition: 0.2s ease-in;
+  box-shadow: 2px 2px 15px rgb(0, 0, 0, 0.1);
+}
+
+.author-card:hover {
+  cursor: pointer;
+  transform: scale(1.06);
+  box-shadow: 2px 2px 15px rgb(0, 0, 0, 0.4);
+}
+
+.author-avatar {
+  width: 100px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+

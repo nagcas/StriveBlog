@@ -1,0 +1,44 @@
+.content-profile {
+  margin-top: 150px;
+}
+
+.content-image {
+  background-color: #fff;
+  width: auto;
+  height: 500px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+}
+
+.img-profile {
+  width: 200px;
+  aspect-ratio: 1/1;
+  display: block;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.content-dati {
+  background-color: #fff;
+  width: auto;
+  height: auto;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.title-image,
+.title-dati {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
+}
+
+.input-profile {
+  height: 50px;
+  border-radius: 20px;
+}
+
+.btn-profile {
+  width: -webkit-fill-available;;
+}

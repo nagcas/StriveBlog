@@ -1,0 +1,28 @@
+.blog-cover {
+  width: 100;
+  height: 250px;
+  object-fit: cover;
+  object-position: 0px 0px;
+}
+
+.blog-card {
+  height: 100%;
+}
+
+.edit-title {
+  margin-top: -30px;
+}
+
+.blog-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.input-edit {
+  height: 50px;
+  border-radius: 20px;
+}
+
+.btn-edit {
+  width: -webkit-fill-available;;
+}
