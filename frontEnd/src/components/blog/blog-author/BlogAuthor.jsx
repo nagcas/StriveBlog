@@ -8,8 +8,8 @@ import defaultAvatar from '../../../assets/default-avatar.jpg';
 const BlogAuthor = (props) => {
   
   const URL = 'http://localhost:5001/api';
-  const API_URL = import.meta.env.URL || URL;
-  
+  //const API_URL = import.meta.env.URL || URL;
+  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [authors, setAuthors] = useState([]);
   const { email } = props;

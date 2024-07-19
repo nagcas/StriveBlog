@@ -6,7 +6,8 @@ import fetchWithAuth from '../../../services/fetchWithAuth';
 function CreateAuthor({ getFetchAuthor }) {
 
   const URL = 'http://localhost:5001/api';
-  const API_URL = import.meta.env.URL || URL;  
+  //const API_URL = import.meta.env.URL || URL;
+  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
