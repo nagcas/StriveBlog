@@ -37,8 +37,8 @@ const corsOptions = {
   origin: function (origin, callback) {
     const whitelist = [
       'http://localhost:3000',
-      '',
-      ''
+      'https://strive-blog-kappa.vercel.app', // frontend in produzione
+      'https://striveblog-kf0l.onrender.com', // Backend in produzione
     ];
 
     if (process.env.NODE_ENV === 'development') {
