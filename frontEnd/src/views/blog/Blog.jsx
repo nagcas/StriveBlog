@@ -11,6 +11,7 @@ import { Context } from '../../modules/Context.js';
 import { useContext } from 'react';
 import formatData from '../../services/formatDate.js';
 
+
 const Blog = (props) => {
 
   const { isLoggedIn } = useContext(Context);
@@ -19,6 +20,7 @@ const Blog = (props) => {
   const { id } = params;
 
   const URL = `http://localhost:5001/api/blogPosts/${id}`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [blog, setBlog] = useState({});
   const [comments, setComments] = useState([]);
@@ -28,7 +30,7 @@ const Blog = (props) => {
   const fetchBlog = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetchWithAuth(URL);
+      const response = await fetchWithAuth(API_URL);
       console.log(response);
       setBlog(response);
       setComments(response.comments);
@@ -37,7 +39,7 @@ const Blog = (props) => {
     } finally {
       setLoading(false);
     }
-  }, [URL]);
+  }, [API_URL]);
 
   useEffect(() => {
     fetchBlog();

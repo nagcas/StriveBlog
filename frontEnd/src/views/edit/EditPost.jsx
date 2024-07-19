@@ -7,12 +7,14 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
+
 function EditPost() {
   
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const URL = `http://localhost:5001/api/blogPosts/${id}`;
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
@@ -37,11 +39,10 @@ function EditPost() {
 
   const [editPost, setEditPost] = useState(initialState);
 
-
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await fetchWithAuth(URL);
+        const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}`);
         setEditPost(response);
         console.log(response);
       } catch (error) {
@@ -49,7 +50,7 @@ function EditPost() {
       }
     };
     fetchPostData();
-  }, [URL]);
+  }, [API_URL, id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -109,7 +110,7 @@ function EditPost() {
     setErrors({});
   
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json' // importante bisogna cambiare con multipart/form-data

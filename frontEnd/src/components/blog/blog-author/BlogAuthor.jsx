@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { Col, Image, Row } from 'react-bootstrap';
 import defaultAvatar from '../../../assets/default-avatar.jpg';
 
+
 const BlogAuthor = (props) => {
-
-
-  const URL = 'http://localhost:5001/api/authors';
+  
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
 
   const [authors, setAuthors] = useState([]);
   const { email } = props;
@@ -15,7 +16,7 @@ const BlogAuthor = (props) => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch(URL);
+        const response = await fetch(`${API_URL}/api/authors`);
         const data = await response.json();
         //console.log(data.authors);
         setAuthors(data.authors);
@@ -25,7 +26,7 @@ const BlogAuthor = (props) => {
     };
 
     fetchAuthors();
-  }, []);
+  }, [API_URL]);
 
   /**
    * avatar.find((user) => user.email === email):

@@ -3,12 +3,14 @@ import './Login.css';
 import React, { useState, useEffect } from 'react';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
+import { FaArrowRight, FaGithub, FaRegTimesCircle } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
+
 
 function Login() {
 
-  const URL = 'http://localhost:5001/api';
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,7 +56,7 @@ function Login() {
     setErrors({});
 
     try {
-      const response = await fetch(`${URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,11 +105,11 @@ function Login() {
   }, [location, navigate]);
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5001/api/auth/google';
+    window.location.href = `${API_URL}/api/auth/google`;
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = 'http://localhost:5001/api/auth/github';
+    window.location.href = `${API_URL}api/auth/github`;
   };
 
   return (
@@ -158,7 +160,7 @@ function Login() {
             aria-label='button save'
             variant='outline-success'
           >
-            Login
+            <FaArrowRight /> Login
           </Button>
 
           <Button
@@ -168,7 +170,7 @@ function Login() {
             variant='outline-dark'
             onClick={handleResetLogin}
           >
-            Reset
+            <FaRegTimesCircle /> Reset
           </Button>
 
           <Button

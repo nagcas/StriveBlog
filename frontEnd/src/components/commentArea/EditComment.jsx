@@ -4,12 +4,14 @@ import { FaEdit } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 
+
 function EditComment({ id, comment, commentId, fetchBlog }) {
 
   const { authorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001/api/blogPosts/${id}/comments/${commentId}`;
-  
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
+
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
@@ -57,7 +59,7 @@ function EditComment({ id, comment, commentId, fetchBlog }) {
     }
   
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}/comments/${commentId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

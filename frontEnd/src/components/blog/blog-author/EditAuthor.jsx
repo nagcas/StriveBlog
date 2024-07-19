@@ -4,10 +4,14 @@ import { FaEdit } from 'react-icons/fa';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 import formatData from '../../../services/formatDate';
 
+
 function EditAuthor({ author, updateAuthor }) {
 
   //console.log(author);
-  const URL = `http://localhost:5001/api/authors/${author._id}`;
+
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
+  
   
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -79,7 +83,7 @@ function EditAuthor({ author, updateAuthor }) {
     }
   
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/authors/${author._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

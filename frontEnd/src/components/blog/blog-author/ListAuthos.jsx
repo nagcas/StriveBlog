@@ -4,19 +4,20 @@ import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { Container, Col, Image, Pagination, Row, Spinner, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import EditAuthor from './EditAuthor';
-import DeleteAuthor from './DeleteAuthor';
 import ViewAuthor from './ViewAuthor';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 
 import defaultAvatar from '../../../assets/default-avatar.jpg';
 import { Context } from '../../../modules/Context.js';
 
+
 const BlogAuthor = () => {
 
-  const { authorLogin, isLoggedIn } = useContext(Context);
+  const { isLoggedIn } = useContext(Context);
 
-  const URL = 'http://localhost:5001/api/authors';
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
+  
 
   const [authors, setAuthors] = useState([]);
   const [isSpinner, setIsSpinner] = useState(false);
@@ -30,7 +31,7 @@ const BlogAuthor = () => {
     setIsSpinner(true);
 
     try {
-      const response = await fetchWithAuth(`${URL}?page=${currentPage}&limit=${limit}`);
+      const response = await fetchWithAuth(`${API_URL}/api/authors?page=${currentPage}&limit=${limit}`);
 
       setAuthors(response.authors);
       setTotalPages(response.totalPages);
@@ -39,22 +40,22 @@ const BlogAuthor = () => {
     } finally {
       setIsSpinner(false);
     }
-  }, [currentPage, limit]);
+  }, [API_URL, currentPage, limit]);
 
   useEffect(() => {
     if (isLoggedIn) {
       getFetchAuthor();
     }
-  }, [isLoggedIn, getFetchAuthor]);
+  }, [API_URL, isLoggedIn, getFetchAuthor]);
 
   // aggiorna authors senza eseguire nuovamente la fetch
-  const updateAuthor = (updatedAuthor) => {
-    setAuthors((prevAuthors) =>
-      prevAuthors.map((author) =>
-        author._id === updatedAuthor._id ? updatedAuthor : author
-      )
-    );
-  };
+  // const updateAuthor = (updatedAuthor) => {
+  //   setAuthors((prevAuthors) =>
+  //     prevAuthors.map((author) =>
+  //       author._id === updatedAuthor._id ? updatedAuthor : author
+  //     )
+  //   );
+  // };
 
   return (
     <Container className='content-authors'>

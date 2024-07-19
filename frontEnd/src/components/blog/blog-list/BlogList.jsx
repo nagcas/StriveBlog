@@ -11,7 +11,8 @@ import { Context } from '../../../modules/Context.js';
 
 const BlogList = ({ search }) => {
   
-  const URL = 'http://localhost:5001/api/blogPosts';
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
 
   const { isLoggedIn } = useContext(Context);
 
@@ -28,7 +29,7 @@ const BlogList = ({ search }) => {
     setisSpinner(true);
 
     try {
-      const data = await fetchWithAuth(`${URL}?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`);
+      const data = await fetchWithAuth(`${API_URL}/api/blogPosts?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`);
       setListPosts(data.posts);
       setTotalPages(data.totalPages);
     } catch (error) {
@@ -37,15 +38,11 @@ const BlogList = ({ search }) => {
       setisSpinner(false);
       setLoading(false);
     }
-  }, [URL, currentPage, limit])
+  }, [currentPage, limit])
 
   useEffect(() => {
     getFetchPosts();
-  }, [getFetchPosts]);
-
-  useEffect(() => {
-    getFetchPosts();
-  }, [getFetchPosts]);
+  }, [API_URL, getFetchPosts]);
 
 
   // Creare i placeholder

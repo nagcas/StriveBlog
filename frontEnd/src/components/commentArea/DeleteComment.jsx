@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
+
 function DeleteComment({ id, commentId, fetchBlog }) {
 
   const [show, setShow] = useState(false);
@@ -10,11 +11,12 @@ function DeleteComment({ id, commentId, fetchBlog }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const URL = `http://localhost:5001/api/blogPosts/${id}/comments/${commentId}`;
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
 
   const deleteComment = async () => {
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}/comments/${commentId}`, {
         method: 'DELETE',
       });
   

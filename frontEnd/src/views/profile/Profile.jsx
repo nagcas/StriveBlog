@@ -9,10 +9,13 @@ import formatData from '../../services/formatDate.js';
 import DeleteAuthor from '../../components/blog/blog-author/DeleteAuthor.jsx';
 import { FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
+
 function Profile() {
+
   const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001/api/authors/${authorLogin._id}`;
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [message, setMessage] = useState(false);
   const [errors, setErrors] = useState({});
@@ -75,7 +78,7 @@ function Profile() {
     }
 
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/authors/${authorLogin._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

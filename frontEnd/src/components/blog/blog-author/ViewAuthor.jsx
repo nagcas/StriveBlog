@@ -7,9 +7,11 @@ import defaultAvatar from '../../../assets/default-avatar.jpg';
 import { FaEye } from 'react-icons/fa';
 import formatData from '../../../services/formatDate';
 
+
 function ViewAuthor({ id }) {
   
-  const URL = `http://localhost:5001/api/authors/${id}`;
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [viewAuthor, setViewAuthor] = useState('');
   const [show, setShow] = useState(false);
@@ -20,7 +22,7 @@ function ViewAuthor({ id }) {
     setShow(true);
   
     try {
-      const response = await fetchWithAuth(URL);
+      const response = await fetchWithAuth(`${API_URL}/api/authors/${id}`,);
   
       console.log(response);
       setViewAuthor(response);

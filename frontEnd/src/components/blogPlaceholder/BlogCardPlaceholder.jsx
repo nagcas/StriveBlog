@@ -3,6 +3,7 @@ import './BlogCardPlaceholder.css';
 import React from 'react';
 import { Card, Placeholder } from 'react-bootstrap';
 
+
 const BlogCardPlaceholder = () => {
   return (
     <Card className='blog-card shadow mt-4'>

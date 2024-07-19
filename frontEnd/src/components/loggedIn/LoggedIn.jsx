@@ -5,31 +5,48 @@ import { Button, Image, Dropdown } from 'react-bootstrap';
 import { Context } from '../../modules/Context.js';
 import defaultAvatar from '../../assets/default-avatar.jpg';
 
+
 function LoggedIn() {
   
   const navigate = useNavigate();
+
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
+  
 
   const { isLoggedIn, setIsLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       const token = localStorage.getItem('token');
-      setIsLoggedIn(!!token);
+      if (token) {
+        try {
+          setIsLoggedIn(true);
+        } catch (error) {
+          console.error('Token non valido', error);
+          localStorage.removeItem('token');
+          setIsLoggedIn(false);
+        }
+      } else {
+        setIsLoggedIn(false);
+      }
+      
     };
 
     checkLoginStatus();
-
     window.addEventListener('storage', checkLoginStatus);
+    window.addEventListener('loginStateChange', checkLoginStatus);
 
     return () => {
       window.removeEventListener('storage', checkLoginStatus);
+      window.removeEventListener('loginStateChange', checkLoginStatus);
     };
   }, [setIsLoggedIn]);
 
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const userData = await fetchWithAuth('http://localhost:5001/api/auth/me');
+        const userData = await fetchWithAuth(`${API_URL}/api/auth/me`);
         setAuthorLogin(userData);
       } catch (error) {
         console.error('Errore nel recupero dei dati utente:', error);
@@ -40,7 +57,7 @@ function LoggedIn() {
     if (isLoggedIn) {
       fetchAuthor();
     }
-  }, [isLoggedIn, navigate, setAuthorLogin]);
+  }, [isLoggedIn, navigate, setAuthorLogin, API_URL]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

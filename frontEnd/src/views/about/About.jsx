@@ -2,6 +2,7 @@ import './About.css';
 
 import { Container } from 'react-bootstrap';
 
+
 function About() {
   return (
       <Container className='content-about'>

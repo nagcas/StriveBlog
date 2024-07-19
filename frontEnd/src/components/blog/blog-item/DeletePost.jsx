@@ -3,9 +3,11 @@ import { Button, Modal } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 
+
 function DeletePost({ id, title, getFetchPosts }) {
 
-  const URL = `http://localhost:5001/api/blogPosts/${id}`;
+  const URL = `http://localhost:5001`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [show, setShow] = useState(false);
 
@@ -15,7 +17,7 @@ function DeletePost({ id, title, getFetchPosts }) {
   
   const handleDeletePost = async () => {
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'multipart/form-data'

@@ -4,13 +4,15 @@ import { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import fetchWithAuth from '../../services/fetchWithAuth.js';
+import { FaArrowRight, FaRegTimesCircle } from 'react-icons/fa';
+
 
 function Register() {
 
-  const URL = 'http://localhost:5001/api/authors';
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
 
   const navigate = useNavigate();
-
 
   const [errors, setErrors] = useState({});
 
@@ -82,7 +84,7 @@ function Register() {
     }
     setErrors({});
     try {
-      const data = await fetchWithAuth(URL, {
+      const data = await fetchWithAuth(`${API_URL}/api/authors`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -203,7 +205,7 @@ function Register() {
             aria-label='button save'
             variant='outline-success'
           >
-            Register
+            <FaArrowRight /> Register
           </Button>
           <Button
             className='btn-standard btn-register mt-3 shadow'
@@ -212,7 +214,7 @@ function Register() {
             variant='outline-dark'
             onClick={handleResetForm}
           >
-            Reset
+            <FaRegTimesCircle /> Reset
           </Button>
         </Form.Group>
       </Form>

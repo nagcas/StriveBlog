@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 
+
 function CreateAuthor({ getFetchAuthor }) {
 
-  const URL = 'http://localhost:5001/api/authors';
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
+  
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -65,7 +68,7 @@ function CreateAuthor({ getFetchAuthor }) {
     }
   
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/authors`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

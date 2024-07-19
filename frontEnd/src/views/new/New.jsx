@@ -7,10 +7,14 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
+
 const NewBlogPost = () => {
+  
   const { isLoggedIn, authorLogin } = useContext(Context);
   const navigate = useNavigate();
-  const URL = 'http://localhost:5001/api/blogPosts';
+
+  const URL = 'http://localhost:5001';
+  const API_URL = import.meta.env.URL || URL;
 
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
@@ -93,7 +97,7 @@ const NewBlogPost = () => {
     const formData = createFormData();
 
     try {
-      const response = await fetchWithAuth(URL, {
+      const response = await fetchWithAuth(`${API_URL}/api/blogPosts`, {
         method: 'POST',
         body: formData,
       });
