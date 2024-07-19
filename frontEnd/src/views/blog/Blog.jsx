@@ -20,7 +20,8 @@ const Blog = (props) => {
   const { id } = params;
 
   const URL = `http://localhost:5001/api/blogPosts/${id}`;
-  const API_URL = import.meta.env.URL || URL;
+  //const API_URL = import.meta.env.URL || URL;
+  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [blog, setBlog] = useState({});
   const [comments, setComments] = useState([]);
