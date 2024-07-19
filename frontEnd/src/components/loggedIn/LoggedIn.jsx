@@ -10,10 +10,8 @@ function LoggedIn() {
   
   const navigate = useNavigate();
 
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
-  
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;
 
   const { isLoggedIn, setIsLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
@@ -47,7 +45,7 @@ function LoggedIn() {
   useEffect(() => {
     const fetchAuthor = async () => {
       try {
-        const userData = await fetchWithAuth(`${API_URL}/api/auth/me`);
+        const userData = await fetchWithAuth(`${API_URL}/auth/me`);
         setAuthorLogin(userData);
       } catch (error) {
         console.error('Errore nel recupero dei dati utente:', error);

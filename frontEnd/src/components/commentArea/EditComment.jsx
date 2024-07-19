@@ -9,15 +9,13 @@ function EditComment({ id, comment, commentId, fetchBlog }) {
 
   const { authorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
   const [errors, setErrors] = useState({});
-
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,7 +58,7 @@ function EditComment({ id, comment, commentId, fetchBlog }) {
     }
   
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}/comments/${commentId}`, {
+      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments/${commentId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

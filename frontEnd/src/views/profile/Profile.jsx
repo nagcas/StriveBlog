@@ -14,9 +14,8 @@ function Profile() {
 
   const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [message, setMessage] = useState(false);
   const [errors, setErrors] = useState({});
@@ -79,7 +78,7 @@ function Profile() {
     }
 
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/authors/${authorLogin._id}`, {
+      const response = await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

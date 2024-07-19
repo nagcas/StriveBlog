@@ -15,7 +15,6 @@ const BlogItem = (props) => {
 
   const { authorLogin, isLoggedIn } = useContext(Context);
 
-
   return (
     <Card className='blog-card'>
       <Link to={`/blogPosts/${_id}`} className='blog-link'>

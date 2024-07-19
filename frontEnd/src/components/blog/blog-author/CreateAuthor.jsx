@@ -5,10 +5,8 @@ import fetchWithAuth from '../../../services/fetchWithAuth';
 
 function CreateAuthor({ getFetchAuthor }) {
 
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
-  
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;  
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -69,7 +67,7 @@ function CreateAuthor({ getFetchAuthor }) {
     }
   
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/authors`, {
+      const response = await fetchWithAuth(`${API_URL}/authors`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

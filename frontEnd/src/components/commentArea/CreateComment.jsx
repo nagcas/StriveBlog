@@ -8,9 +8,8 @@ function CreateComment({ id, fetchBlog }) {
 
   const { authorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -60,7 +59,7 @@ function CreateComment({ id, fetchBlog }) {
     }
 
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}/comments`, {
+      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

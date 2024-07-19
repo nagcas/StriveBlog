@@ -6,19 +6,17 @@ import fetchWithAuth from '../../../services/fetchWithAuth';
 
 function DeletePost({ id, title, getFetchPosts }) {
 
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   
   const handleDeletePost = async () => {
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}`, {
+      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'multipart/form-data'

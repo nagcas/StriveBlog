@@ -11,9 +11,8 @@ import { Context } from '../../../modules/Context.js';
 
 const BlogList = ({ search }) => {
   
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;
 
   const { isLoggedIn } = useContext(Context);
 
@@ -30,7 +29,7 @@ const BlogList = ({ search }) => {
     setisSpinner(true);
 
     try {
-      const data = await fetchWithAuth(`${API_URL}/api/blogPosts?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`);
+      const data = await fetchWithAuth(`${API_URL}/blogPosts?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`);
       setListPosts(data.posts);
       setTotalPages(data.totalPages);
     } catch (error) {

@@ -15,10 +15,8 @@ const BlogAuthor = () => {
 
   const { isLoggedIn } = useContext(Context);
 
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
-  
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;
 
   const [authors, setAuthors] = useState([]);
   const [isSpinner, setIsSpinner] = useState(false);
@@ -32,7 +30,7 @@ const BlogAuthor = () => {
     setIsSpinner(true);
 
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/authors?page=${currentPage}&limit=${limit}`);
+      const response = await fetchWithAuth(`${API_URL}/authors?page=${currentPage}&limit=${limit}`);
 
       setAuthors(response.authors);
       setTotalPages(response.totalPages);

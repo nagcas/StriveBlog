@@ -9,9 +9,8 @@ import { FaGoogle } from 'react-icons/fa';
 
 function Login() {
 
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,7 +56,7 @@ function Login() {
     setErrors({});
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,11 +105,11 @@ function Login() {
   }, [location, navigate]);
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/api/auth/google`;
+    window.location.href = `${API_URL}/auth/google`;
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `${API_URL}/api/auth/github`;
+    window.location.href = `${API_URL}/auth/github`;
   };
 
   return (

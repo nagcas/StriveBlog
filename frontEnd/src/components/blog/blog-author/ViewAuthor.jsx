@@ -10,9 +10,8 @@ import formatData from '../../../services/formatDate';
 
 function ViewAuthor({ id }) {
   
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
 
   const [viewAuthor, setViewAuthor] = useState('');
   const [show, setShow] = useState(false);
@@ -23,7 +22,7 @@ function ViewAuthor({ id }) {
     setShow(true);
   
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/authors/${id}`,);
+      const response = await fetchWithAuth(`${API_URL}/authors/${id}`,);
   
       console.log(response);
       setViewAuthor(response);

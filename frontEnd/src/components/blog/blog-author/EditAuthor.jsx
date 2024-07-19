@@ -9,10 +9,8 @@ function EditAuthor({ author, updateAuthor }) {
 
   //console.log(author);
 
-  const URL = `http://localhost:5001`;
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
-  
+  const URL = `http://localhost:5001/api`;
+  const API_URL = import.meta.env.URL || URL;
   
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -30,19 +28,6 @@ function EditAuthor({ author, updateAuthor }) {
     birthdate: author.birthdate,
     avatar: author.avatar
   });
-
-  // useEffect(() => {
-  //   if (show) {
-  //     setEditAuthor({
-  //       _id: author._id,
-  //       name: author.name,
-  //       lastname: author.lastname,
-  //       email: author.email,
-  //       birthdate: author.birthdate,
-  //       avatar: author.avatar
-  //     });
-  //   }
-  // }, [show, author]);
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -84,7 +69,7 @@ function EditAuthor({ author, updateAuthor }) {
     }
   
     try {
-      const response = await fetchWithAuth(`${API_URL}/api/authors/${author._id}`, {
+      const response = await fetchWithAuth(`${API_URL}/authors/${author._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'

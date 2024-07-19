@@ -7,9 +7,9 @@ import defaultAvatar from '../../../assets/default-avatar.jpg';
 
 const BlogAuthor = (props) => {
   
-  const URL = 'http://localhost:5001';
-  //const API_URL = import.meta.env.URL || URL;
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const URL = 'http://localhost:5001/api';
+  const API_URL = import.meta.env.URL || URL;
+  
 
   const [authors, setAuthors] = useState([]);
   const { email } = props;
@@ -17,7 +17,7 @@ const BlogAuthor = (props) => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/authors`);
+        const response = await fetch(`${API_URL}/authors`);
         const data = await response.json();
         //console.log(data.authors);
         setAuthors(data.authors);
