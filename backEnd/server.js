@@ -33,8 +33,27 @@ dotenv.config();
 // Creazione di un'applicazione Express
 const app = express();
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    const whitelist = [
+      'http://localhost:3000',
+      '',
+      ''
+    ];
 
-app.use(cors());
+    if (process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Permesso negato - CORS'));
+    }
+  },
+  crediantials: true
+};
+
+
+app.use(cors(corsOptions));
 
 // Middleware per il parsing del JSON nel corpo delle richieste
 app.use(express.json());

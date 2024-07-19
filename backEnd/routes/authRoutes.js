@@ -4,16 +4,19 @@ import { generateJWT } from '../utils/jwt.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import passport from '../config/passportConfig.js';
 
+
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+
 const router = express.Router();
 
 // Funzione di callback per gestire il successo dell'autenticazione
 async function handleAuthCallback(req, res) {
   try {
     const token = await generateJWT({ id: req.user._id });
-    res.redirect(`http://localhost:3000/login?token=${token}`);
+    res.redirect(`${FRONTEND_URL}/login?token=${token}`);
   } catch (error) {
     console.error('Errore nella generazione del token:', error);
-    res.redirect('/login?error=auth_failed');
+    res.redirect(`${FRONTEND_URL}}/login?error=auth_failed`);
   }
 }
 
@@ -57,7 +60,7 @@ router.get('/me', authMiddleware, (req, res) => {
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
 
@@ -65,7 +68,7 @@ router.get('/google/callback',
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 router.get('/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/login' }),
+  passport.authenticate('github', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
 
