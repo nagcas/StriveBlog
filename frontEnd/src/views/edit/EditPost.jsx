@@ -7,7 +7,6 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
-
 function EditPost() {
   
   const navigate = useNavigate();
@@ -19,23 +18,23 @@ function EditPost() {
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
   const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { authorLogin, isLoggedIn } = useContext(Context);
 
-  const initialState =
-    {
-      title: '',
-      category: '',
-      readTime: {
-        value: 1,
-        unit: ''
-      },
-      author: {
-        email: authorLogin.email || ''
-      },
-      content: '',
-      cover: '',
-    };
+  const initialState = {
+    title: '',
+    category: '',
+    readTime: {
+      value: 1,
+      unit: ''
+    },
+    author: {
+      email: authorLogin.email || ''
+    },
+    content: '',
+    cover: '',
+  };
 
   const [editPost, setEditPost] = useState(initialState);
 
@@ -43,8 +42,11 @@ function EditPost() {
     const fetchPostData = async () => {
       try {
         const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`);
-        setEditPost(response);
-        console.log(response);
+        if (!response.ok) {
+          throw new Error('Error fetching post data');
+        }
+        const data = await response.json();
+        setEditPost(data);
       } catch (error) {
         console.error('Post not loaded correctly...', error);
       }
@@ -58,25 +60,13 @@ function EditPost() {
       setEditPost({ ...editPost, readTime: { ...editPost.readTime, value: parseInt(value) } });
     } else if (name === 'readTimeUnit') {
       setEditPost({ ...editPost, readTime: { ...editPost.readTime, unit: value } });
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        readTimeUnit: ''
-      }));
+      setErrors((prevErrors) => ({ ...prevErrors, readTimeUnit: '' }));
     } else if (name === 'authorEmail') {
-      setEditPost({ ...editPost, author: { ...editPost.author, email: value } 
-    });
-      
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        authorEmail: ''  
-      }));
+      setEditPost({ ...editPost, author: { ...editPost.author, email: value } });
+      setErrors((prevErrors) => ({ ...prevErrors, authorEmail: '' }));
     } else {
       setEditPost({ ...editPost, [name]: value });
-      
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: ''
-      }));
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     }
   };
 
@@ -97,31 +87,36 @@ function EditPost() {
     return newErrors;
   };
 
-  
   const handleEditPost = async (e) => {
     e.preventDefault();
-  
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
+
     setErrors({});
-  
+    setErrorMessage('');
+
     try {
-      const response = await fetchWithAuth(`${API_URL}`, {
+      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json' // importante bisogna cambiare con multipart/form-data
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(editPost),
       });
-      console.log(response);
+      if (!response.ok) {
+        throw new Error('Error updating post');
+      }
+      const data = await response.json();
+      console.log(data);
       setMessage(true);
       setStateButton(false);
     } catch (err) {
-      console.log('Error editing post...', err);
+      console.error('Error editing post...', err);
+      setErrorMessage('Error editing post...');
     } finally {
       setTimeout(() => {
         setMessage(false);
@@ -130,10 +125,9 @@ function EditPost() {
       }, 1500);
     }
   };
-  
+
   const handleResetForm = () => {
     setEditPost(initialState);
-    //setCoverFile(null);
     setErrors({});
   };
 
@@ -155,9 +149,7 @@ function EditPost() {
               onChange={handleInputChange}
               autoFocus
             />
-
             {errors.title && <p className='text-danger'>{errors.title}</p>}
-
           </Form.Group>
 
           <Form.Group controlId='blog-form-category' className='mt-3'>
@@ -177,15 +169,13 @@ function EditPost() {
               <option value='Science'>Science</option>
               <option value='Business'>Business</option>
             </Form.Control>
-
             {errors.category && <p className='text-danger'>{errors.category}</p>}
-          
           </Form.Group>
 
           <Row>
             <Col md={6}>
               <Form.Group controlId='blog-form-readtime' className='mt-3'>
-              <Form.Label className='fw-bold'>Numeric time value <span className='text-muted'>(default 1)</span></Form.Label>
+                <Form.Label className='fw-bold'>Numeric time value <span className='text-muted'>(default 1)</span></Form.Label>
                 <Form.Control
                   className='border-0 border-bottom input-edit shadow'
                   type='number'
@@ -195,14 +185,12 @@ function EditPost() {
                   value={editPost.readTime.value}
                   onChange={handleInputChange}
                 />
-                
                 {errors.readTime && <p className='text-danger'>{errors.readTime.value}</p>}
-              
               </Form.Group>
             </Col>
             <Col md={6}>
               <Form.Group controlId='blog-form-readunit' className='mt-3'>
-              <Form.Label className='fw-bold'>*Reading time <span className='text-muted'>(hours, minutes, seconds)</span></Form.Label>
+                <Form.Label className='fw-bold'>*Reading time <span className='text-muted'>(hours, minutes, seconds)</span></Form.Label>
                 <Form.Control
                   className='border-0 border-bottom input-edit shadow'
                   as='select'
@@ -216,9 +204,7 @@ function EditPost() {
                   <option value='minutes'>minutes</option>
                   <option value='hours'>hours</option>
                 </Form.Control>
-
                 {errors.readTimeUnit && <p className='text-danger'>{errors.readTimeUnit}</p>}
-
               </Form.Group>
             </Col>
           </Row>
@@ -246,9 +232,7 @@ function EditPost() {
               value={editPost.content}
               onChange={handleInputChange}
             />
-            
             {errors.content && <p className='text-danger'>{errors.content}</p>}
-
           </Form.Group>
 
           <Form.Group controlId='blog-form-cover' className='mt-3'>
@@ -264,6 +248,7 @@ function EditPost() {
           </Form.Group>
 
           {message && <Alert className='mt-3 text-center' variant='success'>Post updated successfully...</Alert>}
+          {errorMessage && <Alert className='mt-3 text-center' variant='danger'>{errorMessage}</Alert>}
           
           {stateButton && 
             <Form.Group className='d-flex mt-3 justify-content-end'>
@@ -271,7 +256,7 @@ function EditPost() {
                 className='me-3 btn-standard btn-edit shadow'
                 as={Link}
                 to='/'
-                type='buttom'
+                type='button'
                 aria-label='button back to home'
                 variant='outline-dark'
               >
@@ -315,4 +300,5 @@ function EditPost() {
 }
 
 export default EditPost;
+
 
