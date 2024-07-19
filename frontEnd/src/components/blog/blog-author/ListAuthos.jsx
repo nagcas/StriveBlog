@@ -82,12 +82,12 @@ const BlogAuthor = () => {
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center'>
                       <ViewAuthor id={author._id} />
-                      {authorLogin && authorLogin.email === author.email && (
+                      {/* {authorLogin && authorLogin.email === author.email && (
                         <>
                           <EditAuthor author={author} updateAuthor={updateAuthor} />
                           <DeleteAuthor author={author} getFetchAuthor={getFetchAuthor} />
                         </>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </Col>

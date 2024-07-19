@@ -1,7 +1,7 @@
 import './Login.css';
 
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Container, Form } from 'react-bootstrap';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
@@ -13,6 +13,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [message, setMessage] = useState(false);
   const [errors, setErrors] = useState({});
 
   const [login, setLogin] = useState({
@@ -62,21 +63,22 @@ function Login() {
       });
 
       if (!response.ok) {
-        setErrors({ form: 'Errore nel login' });
-        throw new Error('Errore nel login');
+        setErrors({ form: 'Login error, account non-existent...' });
+        throw new Error('Login error...');
       }
 
       const data = await response.json();
+      setErrors(false);
+      setMessage(true);
       localStorage.setItem('token', data.token);
-
       window.dispatchEvent(new Event('storage'));
-      alert('Login effettuato');
       setTimeout(() => {
+        setMessage(false);
         navigate('/');
       }, 1500);
 
     } catch (error) {
-      console.error('Errore nella chiamata API di login:', error);
+      console.error('Error in login API call:', error);
     }
   };
 
@@ -145,7 +147,9 @@ function Login() {
 
         </Form.Group>
 
-        {errors.form && <p className='text-danger text-center'>{errors.form}</p>}
+        {errors.form && <Alert className='m-3 text-center' variant='danger'>{errors.form}</Alert>}
+        
+        {message && <Alert className='m-3 text-center' variant='success'>I sign in successfully...</Alert>}
 
         <Form.Group className='mt-3'>
           <Button

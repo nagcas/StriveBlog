@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
+import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
 const NewBlogPost = () => {
   const { isLoggedIn, authorLogin } = useContext(Context);
@@ -247,7 +248,7 @@ const NewBlogPost = () => {
                 aria-label='button back to home'
                 variant='outline-dark'
               >
-                Back to Home
+                <FaHome /> Back to Home
               </Button>
 
               <Button
@@ -257,7 +258,7 @@ const NewBlogPost = () => {
                 variant='dark'
                 onClick={handleResetForm}
               >
-                Reset
+                <FaRegTimesCircle /> Reset
               </Button>
 
               <Button
@@ -266,7 +267,7 @@ const NewBlogPost = () => {
                 variant='outline-success'
                 type='submit'
               >
-                Save
+                <FaRegSave /> Save
               </Button>
             </Form.Group>
           )}

@@ -6,6 +6,7 @@ import defaultAvatar from '../../../assets/default-avatar.jpg';
 
 const BlogAuthor = (props) => {
 
+
   const URL = 'http://localhost:5001/api/authors';
 
   const [authors, setAuthors] = useState([]);

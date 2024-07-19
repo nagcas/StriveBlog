@@ -5,6 +5,7 @@ import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
+import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
 function EditPost() {
   
@@ -273,7 +274,7 @@ function EditPost() {
                 aria-label='button back to home'
                 variant='outline-dark'
               >
-                Back to Home
+                <FaHome /> Back to Home
               </Button>
               <Button
                 className='me-3 btn-standard btn-edit shadow'
@@ -282,7 +283,7 @@ function EditPost() {
                 aria-label='button reset'
                 onClick={handleResetForm}
               >
-                Reset
+                <FaRegTimesCircle /> Reset
               </Button>
               <Button
                 className='btn-standard btn-edit shadow'
@@ -290,7 +291,7 @@ function EditPost() {
                 variant='outline-success'
                 aria-label='button save'
               >
-                Save
+                <FaRegSave /> Save
               </Button>
             </Form.Group>
           }

@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 import { useNavigate } from 'react-router-dom';
+import { Context } from '../../../modules/Context';
 
-function DeleteAuthor({ author, getFetchAuthor }) {
+function DeleteAuthor({ author }) {
+
+  const { setIsLoggedIn } = useContext(Context);
 
   const navigate = useNavigate();
   const URL = `http://localhost:5001/api/authors/`;
@@ -21,18 +24,22 @@ function DeleteAuthor({ author, getFetchAuthor }) {
       });
 
       handleClose();
-      getFetchAuthor();
+      setIsLoggedIn(false);
+
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
       navigate('/');
+      window.dispatchEvent(new Event('storage'));
+      
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-
   return (
     <>
       <Button
-        className='mt-2 btn-standard' 
+        className='mt-2 btn-standard m-auto' 
         aria-label='button delete'
         variant='outline-danger' 
         onClick={handleShow}
