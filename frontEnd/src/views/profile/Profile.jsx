@@ -14,8 +14,7 @@ function Profile() {
 
   const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
-  const URL = `http://localhost:5001/api`;
-  //const API_URL = import.meta.env.URL || URL;
+  const URL = 'http://localhost:5001/api';
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [message, setMessage] = useState(false);

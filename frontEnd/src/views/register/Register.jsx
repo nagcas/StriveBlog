@@ -10,7 +10,6 @@ import { FaArrowRight, FaRegTimesCircle } from 'react-icons/fa';
 function Register() {
 
   const URL = 'http://localhost:5001/api';
-  //const API_URL = import.meta.env.URL || URL;
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const navigate = useNavigate();

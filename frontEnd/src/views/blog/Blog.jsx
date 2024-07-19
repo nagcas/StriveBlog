@@ -19,8 +19,7 @@ const Blog = (props) => {
   const params = useParams();
   const { id } = params;
 
-  const URL = `http://localhost:5001/api`;
-  //const API_URL = import.meta.env.URL || URL;
+  const URL = 'http://localhost:5001/api';
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [blog, setBlog] = useState({});

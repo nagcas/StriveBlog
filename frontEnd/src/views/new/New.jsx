@@ -14,7 +14,6 @@ const NewBlogPost = () => {
   const navigate = useNavigate();
 
   const URL = 'http://localhost:5001/api';
-  //const API_URL = import.meta.env.URL || URL;
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [message, setMessage] = useState(false);

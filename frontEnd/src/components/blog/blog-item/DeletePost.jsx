@@ -6,8 +6,7 @@ import fetchWithAuth from '../../../services/fetchWithAuth';
 
 function DeletePost({ id, title, getFetchPosts }) {
 
-  const URL = `http://localhost:5001/api`;
-  //const API_URL = import.meta.env.URL || URL;
+  const URL = 'http://localhost:5001/api';
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
   const [show, setShow] = useState(false);
