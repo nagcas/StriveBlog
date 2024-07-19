@@ -19,7 +19,7 @@ const Blog = (props) => {
   const params = useParams();
   const { id } = params;
 
-  const URL = `http://localhost:5001/api/blogPosts/${id}`;
+  const URL = `http://localhost:5001`;
   //const API_URL = import.meta.env.URL || URL;
   const API_URL = (import.meta.env && import.meta.env.URL) || URL;
 
@@ -31,7 +31,7 @@ const Blog = (props) => {
   const fetchBlog = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetchWithAuth(API_URL);
+      const response = await fetchWithAuth(`${API_URL}/api/blogPosts/${id}`);
       console.log(response);
       setBlog(response);
       setComments(response.comments);

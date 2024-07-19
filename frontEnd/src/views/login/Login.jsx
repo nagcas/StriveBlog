@@ -110,7 +110,7 @@ function Login() {
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `${API_URL}api/auth/github`;
+    window.location.href = `${API_URL}/api/auth/github`;
   };
 
   return (
