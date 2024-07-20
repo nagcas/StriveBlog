@@ -20,7 +20,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 12;
+    const limit = parseInt(req.query.limit) || 16;
     const sort = req.query.sort || 'name';
     const sortDirection = req.query.sortDirection === 'desc' ? -1 : 1;
     const skip = (page - 1) * limit;

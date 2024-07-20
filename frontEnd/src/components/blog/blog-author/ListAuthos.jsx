@@ -24,7 +24,7 @@ const BlogAuthor = () => {
   // Paginazione
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(16);
 
   const getFetchAuthor = useCallback(async () => {
     setIsSpinner(true);
@@ -46,15 +46,6 @@ const BlogAuthor = () => {
       getFetchAuthor();
     }
   }, [API_URL, isLoggedIn, getFetchAuthor]);
-
-  // aggiorna authors senza eseguire nuovamente la fetch
-  // const updateAuthor = (updatedAuthor) => {
-  //   setAuthors((prevAuthors) =>
-  //     prevAuthors.map((author) =>
-  //       author._id === updatedAuthor._id ? updatedAuthor : author
-  //     )
-  //   );
-  // };
 
   return (
     <Container className='content-authors'>
@@ -137,9 +128,9 @@ const BlogAuthor = () => {
               value={limit}
               onChange={(e) => setLimit(Number(e.target.value))}
             >
-              <option value={6}>6</option>
-              <option value={12}>12</option>
-              <option value={18}>18</option>
+              <option value={8}>8</option>
+              <option value={16}>16</option>
+              <option value={24}>24</option>
             </select>
           </div>
         </>
