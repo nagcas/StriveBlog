@@ -89,7 +89,7 @@ const BlogList = ({ search }) => {
         {loading
           ? placeholders
           : listPosts
-              .filter((post) => post.title.toLowerCase().includes(search.toLowerCase()))
+              .filter((post) => (post.title.toLowerCase().includes(search.toLowerCase())) || (post.author.email.toLowerCase().includes(search.toLowerCase())) )
               .map((post) => (
                 <Col key={post._id} md={4} lg={3} style={{ marginBottom: 50 }}>
                   <BlogItem key={post._id} {...post} getFetchPosts={getFetchPosts} />

@@ -11,7 +11,7 @@ function SearchPosts({ search, handleSearch }) {
         <Form.Control
           type='search' 
           aria-label='input seacrh'
-          placeholder='Search posts...' 
+          placeholder='Search by post and email author...' 
           value={search} 
           onChange={handleSearch}
           className='me-3'

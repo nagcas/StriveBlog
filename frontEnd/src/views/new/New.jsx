@@ -274,7 +274,9 @@ const NewBlogPost = () => {
               </Button>
             </Form.Group>
           )}
+
           {message && <Alert className='mt-3 text-center' variant='success'>Post created successfully...</Alert>}
+          
         </Form>
       ) : (
         <Alert className='mt-4 text-center' variant='light'>

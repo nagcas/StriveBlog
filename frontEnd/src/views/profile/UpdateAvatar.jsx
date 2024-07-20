@@ -1,17 +1,21 @@
 import { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { FaPencilAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
 function UpdateAvatar({ authorLogin, setAuthorLogin }) {
+  
+  const URL = 'http://localhost:5001/api';
+  const API_URL = process.env.REACT_APP_API_URL || URL;
+  
   const [show, setShow] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null); // inizializzato come null
+  const [message, setMessage] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  
 
   const handleFileChange = (e) => {
     setAvatarFile(e.target.files[0]);
@@ -33,13 +37,16 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
         method: 'PATCH',
         body: formData,
       });
+      setMessage(true);
     } catch (error) {
       console.error('Error updating avatar:', error);
       alert('Failed to update avatar');
     } finally {
-      handleClose();
-      alert('Avatar updated successfully');
-
+      setTimeout(() => {
+        handleClose();
+        setMessage(false);
+        setAuthorLogin(authorLogin);
+      }, 1500);
     }
   };
 
@@ -48,7 +55,6 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
       <Button variant='light' onClick={handleShow} className='btn-avatar btn-standard'>
         <FaPencilAlt />
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Update Avatar</Modal.Title>
@@ -61,8 +67,11 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
               type='file'
               name='avatar'
               onChange={handleFileChange}
-              accept="image/*" // limita i file caricabili ai soli tipi di immagini
+              accept='image/*' // limita i file caricabili ai soli tipi di immagini
             />
+
+            {message && <Alert className='m-3 text-center' variant='success'>Avatar updated successfully...</Alert>}
+          
           </Form.Group>
           <Modal.Footer>
             <Button 
