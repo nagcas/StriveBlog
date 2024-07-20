@@ -20,7 +20,7 @@ const NewBlogPost = () => {
   const [stateButton, setStateButton] = useState(true);
   const [errors, setErrors] = useState({});
   const [coverFile, setCoverFile] = useState(null);
-
+ 
   const initialState = {
     title: '',
     category: '',

@@ -8,10 +8,9 @@ import fetchWithAuth from '../../services/fetchWithAuth.js';
 import formatData from '../../services/formatDate.js';
 import DeleteAuthor from '../../components/blog/blog-author/DeleteAuthor.jsx';
 import { FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
-
+import UpdateAvatar from './UpdateAvatar.jsx';
 
 function Profile() {
-
   const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
   const URL = 'http://localhost:5001/api';
@@ -20,6 +19,7 @@ function Profile() {
   const [message, setMessage] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Inizializza lo stato con valori predefiniti per evitare input non controllati
   const [editProfile, setEditProfile] = useState({
     name: authorLogin.name || '',
     lastname: authorLogin.lastname || '',
@@ -29,13 +29,16 @@ function Profile() {
   });
 
   useEffect(() => {
-    setEditProfile({
-      name: authorLogin.name,
-      lastname: authorLogin.lastname,
-      email: authorLogin.email,
-      birthdate: formatData(authorLogin.birthdate),
-      avatar: authorLogin.avatar,
-    });
+    // Aggiorna lo stato solo se i dati dell'autore sono disponibili
+    if (authorLogin) {
+      setEditProfile({
+        name: authorLogin.name || '',
+        lastname: authorLogin.lastname || '',
+        email: authorLogin.email || '',
+        birthdate: formatData(authorLogin.birthdate) || '',
+        avatar: authorLogin.avatar || '',
+      });
+    }
   }, [authorLogin]);
 
   const handleChangeProfile = (e) => {
@@ -54,16 +57,16 @@ function Profile() {
   const validate = () => {
     const newErrors = {};
     if (!editProfile.name.trim()) {
-      newErrors.name = 'you must enter a name...';
+      newErrors.name = 'You must enter a name...';
     };
     if (!editProfile.lastname.trim()) {
-      newErrors.lastname = 'you must enter a lastname...';
+      newErrors.lastname = 'You must enter a lastname...';
     };
     if (!editProfile.email.trim()) {
-      newErrors.email = 'you must enter an email...';
+      newErrors.email = 'You must enter an email...';
     };
     if (!editProfile.birthdate.trim()) {
-      newErrors.birthdate = 'you must enter a date of birth...';
+      newErrors.birthdate = 'You must enter a date of birth...';
     };
     return newErrors;
   };
@@ -110,23 +113,24 @@ function Profile() {
                 className='img-profile'
                 roundedCircle
               />
+              <UpdateAvatar authorLogin={authorLogin} setAuthorLogin={setAuthorLogin} />
               <p className='text-center'>{authorLogin.name} {authorLogin.lastname}</p>
-              <p className='text-muted text-center'>Account creato il {formatData(authorLogin.createdAt, 'it')}</p>
-              <h5 className='title-image'>Elimina Account</h5>
+              <p className='text-muted text-center'>Account created on {formatData(authorLogin.createdAt, 'it')}</p>
+              <h5 className='title-image'>Delete Account</h5>
               <DeleteAuthor author={authorLogin} />
             </div>
           </Col>
 
           <Col md={8}>
             <div className='content-dati'>
-              <h5 className='title-dati'>Dati del profilo</h5>
+              <h5 className='title-dati'>Profile Author</h5>
               <Form onSubmit={handleEditProfile}>
                 <Form.Group className='mb-3' controlId='edit-author-id'>
-                  <Form.Label className='fw-bold'>id</Form.Label>
+                  <Form.Label className='fw-bold'>ID</Form.Label>
                   <Form.Control
                     className='form-control-plaintext'
                     name='id'
-                    defaultValue={authorLogin._id}
+                    placeholder={authorLogin._id}
                     readOnly
                   />
                 </Form.Group>
@@ -137,13 +141,11 @@ function Profile() {
                     type='text'
                     name='name'
                     aria-label='name'
-                    value={editProfile.name}
+                    value={editProfile.name || ''}
                     placeholder='Insert your name...'
                     onChange={handleChangeProfile}
                   />
-                  
                   {errors.name && <p className='text-danger'>{errors.name}</p>}
-                
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='edit-author-lastname'>
                   <Form.Label className='fw-bold'>Lastname</Form.Label>
@@ -152,13 +154,11 @@ function Profile() {
                     type='text'
                     name='lastname'
                     aria-label='lastname'
-                    value={editProfile.lastname}
+                    value={editProfile.lastname || ''}
                     placeholder='Insert your lastname...'
                     onChange={handleChangeProfile}
                   />
-                  
                   {errors.lastname && <p className='text-danger'>{errors.lastname}</p>}
-                
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='edit-author-email'>
                   <Form.Label className='fw-bold'>Email</Form.Label>
@@ -167,13 +167,11 @@ function Profile() {
                     type='email'
                     name='email'
                     aria-label='email'
-                    value={editProfile.email}
+                    value={editProfile.email || ''}
                     placeholder='Insert your email...'
                     onChange={handleChangeProfile}
                   />
-
                   {errors.email && <p className='text-danger'>{errors.email}</p>}
-                
                 </Form.Group>
                 <Form.Group className='mb-3' controlId='edit-author-birthdate'>
                   <Form.Label className='fw-bold'>Birthdate</Form.Label>
@@ -182,10 +180,10 @@ function Profile() {
                     type='date'
                     name='birthdate'
                     aria-label='birthdate'
-                    value={editProfile.birthdate}
+                    value={editProfile.birthdate || ''}
                     onChange={handleChangeProfile}
                   />
-                  {errors.name && <p className='text-danger'>{errors.name}</p>}
+                  {errors.birthdate && <p className='text-danger'>{errors.birthdate}</p>}
                 </Form.Group>
 
                 {message && <Alert className='m-3 text-center' variant='success'>Author updated successfully...</Alert>}
@@ -228,6 +226,7 @@ function Profile() {
       )}
     </Container>
   );
-};
+}
 
 export default Profile;
+
