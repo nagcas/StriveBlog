@@ -65,7 +65,7 @@ function EditComment({ id, comment, commentId, fetchBlog }) {
         },
         body: JSON.stringify(editComment),
       });
-      console.log(response);
+      //console.log(response);
       
       setMessage(true);
       setStateButton(false);

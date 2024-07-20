@@ -77,7 +77,7 @@ function EditAuthor({ author, updateAuthor }) {
         body: JSON.stringify(editAuthor),
       });
       
-      console.log(response);
+      //console.log(response);
       setMessage(true);
       setStateButton(false);
     } catch (error) {

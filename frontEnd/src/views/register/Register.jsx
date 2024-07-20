@@ -91,7 +91,7 @@ function Register() {
         },
         body: JSON.stringify(register),
       });
-      console.log('Risultato:', data);
+      //console.log('Risultato:', data);
     } catch (error) {
       console.log(error);
     } finally {

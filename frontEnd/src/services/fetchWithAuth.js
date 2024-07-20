@@ -16,7 +16,7 @@ const fetchWithAuth = async (url, options = {}) => {
     // Aggiunge l'header di autorizzazione con il token
     headers['Authorization'] = `Bearer ${token}`;
     // Log del token per debugging
-    console.log("Token inviato:", token);
+    //console.log("Token inviato:", token);
   }
 
   try {

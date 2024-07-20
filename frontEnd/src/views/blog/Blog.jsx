@@ -30,7 +30,7 @@ const Blog = (props) => {
     setLoading(true);
     try {
       const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`);
-      console.log(response);
+      //console.log(response);
       setBlog(response);
       setComments(response.comments);
     } catch (error) {

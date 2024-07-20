@@ -12,7 +12,6 @@ import { useContext } from 'react';
 const BlogItem = (props) => {
   
   const { title, category, cover, author, _id, getFetchPosts } = props;
-
   const { authorLogin, isLoggedIn } = useContext(Context);
 
   return (

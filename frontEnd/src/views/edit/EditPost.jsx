@@ -44,7 +44,7 @@ function EditPost() {
       try {
         const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`);
         setEditPost(response);
-        console.log(response);
+        //console.log(response);
       } catch (error) {
         console.error('Post not loaded correctly...', error);
       }

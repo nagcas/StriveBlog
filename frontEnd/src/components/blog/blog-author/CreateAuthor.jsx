@@ -75,7 +75,7 @@ function CreateAuthor({ getFetchAuthor }) {
         body: JSON.stringify(newAuthor),
       });
 
-      console.log(response);
+      //console.log(response);
       setMessage(true);
       setStateButton(false);
       setNewAuthor({

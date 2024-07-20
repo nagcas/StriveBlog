@@ -24,7 +24,7 @@ function ViewAuthor({ id }) {
     try {
       const response = await fetchWithAuth(`${API_URL}/authors/${id}`,);
   
-      console.log(response);
+      //console.log(response);
       setViewAuthor(response);
     } catch (error) {
       console.error('Authore non presente', error);

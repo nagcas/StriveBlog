@@ -50,7 +50,7 @@ function CreateComment({ id, fetchBlog }) {
   const handleSaveSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(comment);
+    //console.log(comment);
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {

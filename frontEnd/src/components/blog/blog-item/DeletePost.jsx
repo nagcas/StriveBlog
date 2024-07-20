@@ -22,7 +22,7 @@ function DeletePost({ id, title, getFetchPosts }) {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(response);
+      //console.log(response);
     } catch (error) {
         console.error(error)
     } finally {

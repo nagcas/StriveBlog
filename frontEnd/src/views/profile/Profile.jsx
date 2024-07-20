@@ -86,7 +86,7 @@ function Profile() {
         body: JSON.stringify(editProfile),
       });
 
-      console.log(response);
+      //console.log(response);
 
       setMessage(true);
     } catch (error) {
