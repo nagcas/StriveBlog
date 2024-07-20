@@ -12,7 +12,7 @@ function DeleteAuthor({ author }) {
   const navigate = useNavigate();
 
   const URL = 'http://localhost:5001/api';
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const API_URL = process.env.REACT_APP_API_URL || URL;
 
   const [show, setShow] = useState(false);
 

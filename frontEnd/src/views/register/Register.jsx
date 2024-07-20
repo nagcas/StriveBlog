@@ -10,7 +10,7 @@ import { FaArrowRight, FaRegTimesCircle } from 'react-icons/fa';
 function Register() {
 
   const URL = 'http://localhost:5001/api';
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const API_URL = process.env.REACT_APP_API_URL || URL;
 
   const navigate = useNavigate();
 
@@ -84,14 +84,13 @@ function Register() {
     }
     setErrors({});
     try {
-      const data = await fetchWithAuth(`${API_URL}/authors`, {
+      await fetchWithAuth(`${API_URL}/authors`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(register),
       });
-      //console.log('Risultato:', data);
     } catch (error) {
       console.log(error);
     } finally {

@@ -8,11 +8,9 @@ import video from '../../assets/Video WhatsApp 2024-07-19 ore 23.51.01_93b88d2d.
 
 function NotFound() {
 
-
   return (
     <Container className='page-not-found'>
       <div className='content'>
-        {/* <h1>4🤯4</h1> */}
         <video width="80%" height="auto" controls autoplay muted loop>
           <source src={video} type="video/mp4" />
         Your browser does not support the video tag.

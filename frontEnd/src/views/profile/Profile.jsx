@@ -15,7 +15,7 @@ function Profile() {
   const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
 
   const URL = 'http://localhost:5001/api';
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const API_URL = process.env.REACT_APP_API_URL || URL;
 
   const [message, setMessage] = useState(false);
   const [errors, setErrors] = useState({});
@@ -78,15 +78,13 @@ function Profile() {
     }
 
     try {
-      const response = await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}`, {
+      await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(editProfile),
       });
-
-      //console.log(response);
 
       setMessage(true);
     } catch (error) {

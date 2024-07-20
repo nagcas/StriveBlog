@@ -12,19 +12,14 @@ function DeleteComment({ id, commentId, fetchBlog }) {
   const handleShow = () => setShow(true);
 
   const URL = 'http://localhost:5001/api';
-  const API_URL = (import.meta.env && import.meta.env.URL) || URL;
+  const API_URL = process.env.REACT_APP_API_URL || URL;
 
   const deleteComment = async () => {
     try {
-      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments/${commentId}`, {
+      await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments/${commentId}`, {
         method: 'DELETE',
       });
-  
-      if (!response.ok) {
-        throw new Error('Failed to delete comment...');
-      }
-  
-      //const data = await response.json();
+
       handleClose();
     } catch (error) {
       console.error('Error:', error);
