@@ -21,7 +21,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 16;
+    const limit = parseInt(req.query.limit) || ;
     const sort = req.query.sort || 'name';
     const sortDirection = req.query.sortDirection === 'desc' ? -1 : 1;
     const skip = (page - 1) * limit;
@@ -91,11 +91,15 @@ router.post('/', async (req, res) => {
       <p>Per supporto, contattare il seguente indirizzo email:>supporto@blogposts.com</p>
     `;
 
-    await sendEmail(
-      author.email,
-      'Benvenuto su BlogPosts! Il tuo account è stato creato con successo.',
-      htmlContent
-    );
+    try {
+      await sendEmail(
+        author.email,
+        'Benvenuto su BlogPosts! Il tuo account è stato creato con successo.',
+        htmlContent
+      );
+    } catch (emailError) {
+      console.error('Email not sent correctly', emailError.message);
+    }
 
     res.status(201).json(authorResponse);
 
@@ -190,12 +194,15 @@ router.patch('/:id/avatar', cloudinaryUploader.single('avatar'), async (req, res
       <p>Per supporto, contattare il seguente indirizzo email:>supporto@blogposts.com</p>
     `;
 
-    await sendEmail(
-      author.email, 
-      'Avatar Pubblicato con Successo',
-      htmlContent
-    );
-
+    try {
+      await sendEmail(
+        author.email, 
+        'Avatar Pubblicato con Successo',
+        htmlContent
+      );
+    } catch (emailError) {
+      console.error('Email not sent correctly', emailError.message);
+    }
 
     // Invia la risposta con l'autore aggiornato
     res.json(author);

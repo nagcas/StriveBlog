@@ -58,33 +58,6 @@ router.get('/:id', async (req, res) => {
 
 router.use(authMiddleware);
 
-// Definizione di una route POST per creare un nuovo post
-// router.post('/', async (req, res) => {
-//   const post = new Post(req.body);
-//   try {
-//     const newPost = await post.save();
-//     res.status(201).json(newPost);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// });
-
-// router.post('/', upload.single('cover'), async (req, res) => {
-//   try {
-//     const postData = req.body;
-//     if (req.file) {
-//       postData.cover = `http://localhost:5001/uploads/${req.file.filename}}`;
-//     } 
-//     const newPost = new Post(postData);
-//     await newPost.save();
-//     res.status(201).json(newPost);
-//   } catch (err) {
-//     console.error('Errore nella creazione', err);
-//     res.status(400).json({ message: err.message });
-//   }
-// });
-
-
 
 router.post('/', cloudinaryUploader.single('cover'), async (req, res) => {
   try {
@@ -111,11 +84,16 @@ router.post('/', cloudinaryUploader.single('cover'), async (req, res) => {
       <p>Per supporto, contattare il seguente indirizzo email:>supporto@blogposts.com</p>
     `;
 
-    await sendEmail(
-      newPost.author.email, 
+    try {
+      await sendEmail(
+        newPost.author.email, 
       'Il tuo post è stato pubblicato con successo',
       htmlContent
-    );
+      );
+    } catch (emailError) {
+      console.error('Email not sent correctly', emailError.message);
+    }
+    
 
     res.status(201).json(newPost);
   } catch (error) {
@@ -174,12 +152,15 @@ router.patch('/:id/cover', cloudinaryUploader.single('cover'), async (req, res) 
       <p>Per supporto, contattare il seguente indirizzo email:>supporto@blogposts.com</p>1
     `;
 
-    await sendEmail(
-      blogPost.author.email, 
+    try {
+      await sendEmail(
+        blogPost.author.email, 
       'Aggiornamento della Cover del Tuo Post',
       htmlContent
-    );
-
+      );
+    } catch (emailError) {
+      console.error('Email not sent correctly', emailError.message);
+    }
 
     // Invia la risposta con il blog post aggiornato
     res.json(blogPost);
@@ -220,24 +201,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
-/* funziona
-// Definizione di una route DELETE per eliminare un post per ID
-router.delete('/:id', async (req, res) => {
-  try {
-    const deletedPost = await Post.findByIdAndDelete(req.params.id);
-      if (!deletedPost) {
-       return res.status(404).json({ message: 'Post non trovato...' });
-      }
-      res.json({ message: 'Post eliminato correttamente...' });
-    } catch (err) {
-     res.status(500).json({ message: err.message });
-    }
-  });
-funziona */
-
 
 
 /*
@@ -293,13 +256,16 @@ router.post('/:id/comments', async (req, res) => {
       <p>Per supporto, contattare il seguente indirizzo email:>supporto@blogposts.com</p>
     `;
 
-    await sendEmail(
-      newComment.email,
-      'Creazione del Tuo Commento Confermata', // oggetto dell'email
-      htmlContent
-    );
+    try {
+      await sendEmail(
+        newComment.email,
+        'Creazione del Tuo Commento Confermata', // oggetto dell'email
+        htmlContent
+      );
+    } catch (emailError) {
+      console.error('Email not sent correctly', emailError.message);
+    }
 
-    
     // Risponde con i commenti aggiornati del post
     res.status(201).json(newComment);
 
