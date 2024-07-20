@@ -38,7 +38,7 @@ const Blog = (props) => {
     } finally {
       setLoading(false);
     }
-  }, [API_URL]);
+  }, [API_URL, id]);
 
   useEffect(() => {
     fetchBlog();

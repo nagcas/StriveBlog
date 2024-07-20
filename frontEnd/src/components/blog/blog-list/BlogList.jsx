@@ -38,7 +38,7 @@ const BlogList = ({ search }) => {
       setisSpinner(false);
       setLoading(false);
     }
-  }, [currentPage, limit])
+  }, [API_URL, currentPage, limit])
 
   useEffect(() => {
     getFetchPosts();
