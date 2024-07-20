@@ -102,7 +102,7 @@ const NewBlogPost = () => {
         body: formData,
       });
 
-      //console.log(response);
+      //console.log(response); 
       setMessage(true);
       setStateButton(false);
       setNewPost(initialState);

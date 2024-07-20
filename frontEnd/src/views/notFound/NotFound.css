@@ -11,13 +11,18 @@
 }
 
 .content {
-  max-width: 600px;
+  max-width: 650px;
   text-align: center;
 }
 
 .content h1 {
   font-size: 12vw;
   line-height: 1em;
+  margin-bottom: 20px;
+}
+
+.content h5 {
+  font-size: 0.9em;
   margin-bottom: 20px;
 }
 
