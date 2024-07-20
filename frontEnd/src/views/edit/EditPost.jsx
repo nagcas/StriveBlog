@@ -110,7 +110,7 @@ function EditPost() {
     setErrors({});
   
     try {
-      const response = await fetchWithAuth(API_URL, {
+      const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json' // importante bisogna cambiare con multipart/form-data
