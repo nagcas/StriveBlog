@@ -39,7 +39,7 @@ const BlogAuthor = (props) => {
     || {}:
 
     L'operatore logico OR (||) viene utilizzato qui per fornire un valore di fallback.
-    Se .find non trova un oggetto corrispondente e restituisce undefined, il valore undefined verrà considerato "falso" in un contesto booleano.
+    Se .find non trova un oggetto corrispondente e restituisce undefined, il valore undefined verrà considerato 'falso' in un contesto booleano.
     In tal caso, l'operatore OR restituirà il secondo operando {}, cioè un oggetto vuoto.
     Se invece .find trova un oggetto corrispondente, restituirà quell'oggetto, e l'operatore OR non avrà effetto.
    */

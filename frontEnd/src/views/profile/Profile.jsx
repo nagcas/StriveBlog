@@ -1,6 +1,6 @@
 import './Profile.css';
 import { useContext, useEffect, useState } from 'react';
-import { Alert, Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { Context } from '../../modules/Context.js';
 import defaultAvatar from '../../assets/default-avatar.jpg';
 import { Link } from 'react-router-dom';

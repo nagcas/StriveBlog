@@ -11,11 +11,11 @@ function NotFound() {
   return (
     <Container className='page-not-found'>
       <div className='content'>
-        <video width="80%" height="auto" controls autoplay muted loop>
-          <source src={video} type="video/mp4" />
+        <video width='80%' height='auto' controls autoplay muted loop>
+          <source src={video} type='video/mp4' />
         Your browser does not support the video tag.
         </video>
-        <h5>by Maria Alessandra Chiaravalloti 🥰🥰🥰</h5>
+        <h5>by Maria Alessandra Chiaravalloti 🥰🥰🥰</h5>     
         <h4>Opps! Page not found</h4>
         <p>Sorry, the page you're looking for doesn't exist.</p>
         <Button

@@ -1,6 +1,6 @@
 const fetchWithAuth = async (url, options = {}) => {
   // Recupera il token dal localStorage
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   // Prepara gli headers di default, includendo il Content-Type
   const headers = {
@@ -16,7 +16,7 @@ const fetchWithAuth = async (url, options = {}) => {
     // Aggiunge l'header di autorizzazione con il token
     headers['Authorization'] = `Bearer ${token}`;
     // Log del token per debugging
-    //console.log("Token inviato:", token);
+    //console.log('Token inviato:', token);
   }
 
   try {

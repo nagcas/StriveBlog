@@ -35,7 +35,7 @@ const BlogAuthor = () => {
       setAuthors(response.authors);
       setTotalPages(response.totalPages);
     } catch (error) {
-      console.error('Errore nella chiamata endpoint', error);
+      console.error('Error calling endpoint', error);
     } finally {
       setIsSpinner(false);
     }

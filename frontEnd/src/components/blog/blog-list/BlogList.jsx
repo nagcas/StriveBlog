@@ -1,5 +1,3 @@
-import './BlogList.css';
-
 import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Button, Col, Container, Pagination, Row, Spinner } from 'react-bootstrap';
 import BlogItem from '../blog-item/BlogItem';
