@@ -41,7 +41,7 @@ function DeleteAuthor({ author }) {
   return (
     <>
       <Button
-        className='mt-2 btn-standard m-auto' 
+        className='mt-2 btn-standard m-auto shadow' 
         aria-label='button delete'
         variant='outline-danger' 
         onClick={handleShow}

@@ -99,6 +99,12 @@ function Profile() {
     }
   };
 
+  // Funzione per aggiornare il profilo
+  const updatedAuthor = (updatedProfile) => {
+    setEditProfile(updatedProfile);
+    setAuthorLogin(updatedProfile);
+  };
+
   return (
     <Container className='content-profile'>
       {(authorLogin && isLoggedIn) ? (
@@ -110,10 +116,10 @@ function Profile() {
                 <Image
                   src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar}
                   alt={authorLogin.avatar ? 'Image author' : 'Image author default'}
-                  className='img-profile'
+                  className='img-profile shadow'
                   roundedCircle
                 />
-                <UpdateAvatar authorLogin={authorLogin} setAuthorLogin={setAuthorLogin} />
+                <UpdateAvatar authorLogin={authorLogin} updatedAuthor={updatedAuthor} />
               </div>
               <p className='text-center'>{authorLogin.name} {authorLogin.lastname}</p>
               <p className='text-muted text-center'>Account created on {formatData(authorLogin.createdAt, 'it')}</p>

@@ -69,6 +69,10 @@ function EditComment({ id, comment, commentId, updateComments }) {
       
       setMessage(true);
       setStateButton(false);
+      // Aggiorna i commenti nel componente padre
+      updateComments((prevComments) => 
+        prevComments.map((comm) => (comm._id === comment._id ? { ...comm, content: editComment.content } : comm))
+      );
     } catch (error) {
       console.error('Errore invio dati', error);
     } finally {
@@ -76,10 +80,6 @@ function EditComment({ id, comment, commentId, updateComments }) {
         setMessage(false);
         setStateButton(true);
         handleClose();
-        // Aggiorna i commenti nel componente padre
-        updateComments((prevComments) => 
-          prevComments.map((comm) => (comm._id === comment._id ? { ...comm, content: editComment.content } : comm))
-        );
       }, 1500);
     }
   };
@@ -163,7 +163,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
 
             {message && <Alert className='m-3 text-center' variant='success'>Comment updated successfully...</Alert>}
             
-            {stateButton &&
+            {stateButton && (
               <Modal.Footer>
                 <Button
                   className='me-3 btn-standard' 
@@ -183,7 +183,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
                   Save
                 </Button>
               </Modal.Footer>
-            }
+            )}
           </Form>
         </Modal.Body>
       </Modal>

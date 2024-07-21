@@ -3,26 +3,29 @@ import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { FaPencilAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
-function UpdateAvatar({ authorLogin, setAuthorLogin }) {
+function UpdateAvatar({ authorLogin, updatedAuthor }) {
   const URL = 'http://localhost:5001/api';
   const API_URL = process.env.REACT_APP_API_URL || URL;
 
   const [show, setShow] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [stateButton, setStateButton] = useState(true);
   const [message, setMessage] = useState(false);
+  const [errors, setErrors] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleFileChange = (e) => {
     setAvatarFile(e.target.files[0]);
+    setErrors(false);
   };
 
   const saveAvatar = async (e) => {
     e.preventDefault();
 
     if (!avatarFile) {
-      alert('Please select a file first...');
+      setErrors(true);
       return;
     }
 
@@ -34,19 +37,15 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
         method: 'PATCH',
         body: formData,
       });
-      
-      // Aggiorniamo lo stato dell'autore con la nuova URL dell'avatar
-      const updatedAuthor = await response.json();
-      setAuthorLogin(prevState => ({...prevState, avatar: updatedAuthor.avatar}));
-      
+      setStateButton(false);
       setMessage(true);
     } catch (error) {
       console.error('Error updating avatar:', error);
-      alert('Failed to update avatar');
     } finally {
       setTimeout(() => {
         handleClose();
         setMessage(false);
+        setStateButton(true);
       }, 1500);
     }
   };
@@ -64,7 +63,7 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
           <Form.Group controlId='profile-avatar' className='mt-3'>
             <Form.Label className='fw-bold'>Avatar Image</Form.Label>
             <Form.Control
-              className='border-0 border-bottom input-edit p-4 shadow'
+              className='border-0 border-bottom input-avatar shadow'
               type='file'
               name='avatar'
               onChange={handleFileChange}
@@ -72,22 +71,25 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
             />
 
             {message && <Alert className='m-3 text-center' variant='success'>Avatar updated successfully...</Alert>}
+            {errors && <Alert className='m-3 text-center' variant='danger'>Please select a file first...</Alert>}
           
           </Form.Group>
-          <Modal.Footer>
-            <Button 
-              variant='outline-dark' 
-              className='btn-standard' 
-              onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button 
-              variant='outline-success' 
-              className='btn-standard'
-              type='submit'>
-              Save
-            </Button>
-          </Modal.Footer>
+          {stateButton && (
+            <Modal.Footer>
+              <Button 
+                variant='outline-dark' 
+                className='btn-standard' 
+                onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button 
+                variant='outline-success' 
+                className='btn-standard'
+                type='submit'>
+                Save
+              </Button>
+            </Modal.Footer>
+          )}
         </Form>
       </Modal>
     </>
