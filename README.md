@@ -2,6 +2,8 @@
 
 Benvenuti nel progetto STRIVE BLOG! Questa è un'applicazione web full-stack costruita con lo stack MERN (MongoDB, Express.js, React, Node.js). L'applicazione consente agli utenti di registrarsi, accedere e creare post sul blog. Gli utenti possono anche accedere utilizzando Google e GitHub. Dopo la registrazione, viene inviata un'email di conferma all'account dell'utente tramite il servizio Mailgun. Gli utenti possono gestire i propri post e profili, commentare i post e visualizzare un elenco di autori.
 
+La base del progetto utilizzata è quella fornita da EPICODE 'STRIVE BLOG'. Il progetto è realizzato con create-react-app di npm.
+
 🔗 [Visita STRIVE BLOG!](https://strive-blog-kappa.vercel.app/) 🌐
 
 ## 📑 Indice
@@ -15,8 +17,7 @@ Benvenuti nel progetto STRIVE BLOG! Questa è un'applicazione web full-stack cos
 ## ✨ Caratteristiche
 
 - **📝 Registrazione e Accesso Utente**: Gli utenti possono registrarsi e accedere utilizzando email/password o tramite Google e GitHub.
-- **📧 Conferma Email**: Un'email di conferma viene inviata all'utente dopo la registrazione utilizzando Mailgun.
-- **🛠️ Operazioni CRUD per i Post**: Gli utenti (autori) possono creare, leggere, aggiornare e cancellare i propri post.
+- **🛠️ Operazioni CRUD per i Post**: Gli utenti (autori) possono creare, aggiornare e cancellare i propri post.
 - **💬 Gestione Commenti**: Gli utenti possono commentare i post e gestire (creare, aggiornare, cancellare) i propri commenti.
 - **👤 Profilo Utente**: Gli utenti possono aggiornare le informazioni del proprio profilo e la foto del profilo.
 - **📜 Elenco Autori**: Una pagina dedicata all'elenco di tutti gli autori, accessibile solo agli utenti autenticati.
@@ -24,12 +25,12 @@ Benvenuti nel progetto STRIVE BLOG! Questa è un'applicazione web full-stack cos
 
 ## 💻 Tecnologie
 
-- **Frontend**: React, Redux, React Router
+- **Frontend**: React, React Router
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Autenticazione**: JWT, Passport.js, OAuth (Google, GitHub)
 - **Servizio Email**: Mailgun
-- **Altro**: Axios, Mongoose, bcryptjs
+- **Altro**: Mongoose, bcryptjs
 
 ## 🛠️ Installazione e Configurazione
 
@@ -37,3 +38,5 @@ Benvenuti nel progetto STRIVE BLOG! Questa è un'applicazione web full-stack cos
    ```bash
    git clone https://github.com/yourusername/strive-blog.git
    cd strive-blog
+
+
