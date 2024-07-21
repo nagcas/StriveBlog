@@ -20,6 +20,7 @@ const BlogAuthor = (props) => {
         const data = await response.json();
         //console.log(data.authors);
         setAuthors(data.authors);
+        console.log(data.authors);
       } catch (error) {
         console.error('Errore nella richiesta', error);
       }
