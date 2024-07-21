@@ -19,6 +19,7 @@ function EditPost() {
   const [message, setMessage] = useState(false);
   const [stateButton, setStateButton] = useState(true);
   const [errors, setErrors] = useState({});
+  const [coverFile, setCoverFile] = useState(null);
 
   const { authorLogin, isLoggedIn } = useContext(Context);
 
@@ -97,7 +98,10 @@ function EditPost() {
     return newErrors;
   };
 
-  
+  const handleFileChange = (e) => {
+    setCoverFile(e.target.files[0]);
+  };
+
   const handleEditPost = async (e) => {
     e.preventDefault();
   
@@ -255,11 +259,10 @@ function EditPost() {
             <Form.Label className='fw-bold'>Cover <span className='text-muted'>(in the absence of a cover, a default one is inserted)</span></Form.Label>
             <Form.Control
               className='border-0 border-bottom input-edit p-4 shadow'
-              type='text'
+              type='file'
               name='cover'
-              placeholder='Insert cover link...'
-              value={editPost.cover}
-              onChange={handleInputChange}
+              aria-label='cover'
+              onChange={handleFileChange}
             />
           </Form.Group>
 

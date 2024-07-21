@@ -3,7 +3,6 @@
 }
 
 .content-image {
-  position: relative;
   background-color: #fff;
   width: auto;
   height: auto;
@@ -16,7 +15,7 @@
   width: 200px;
   aspect-ratio: 1/1;
   display: block;
-  padding: 20px;
+  /* padding: 20px; */
   margin: 0 auto;
 }
 
@@ -50,8 +49,14 @@
   padding: 40px;
 }
 
+.content-image-profile {
+  position: relative;
+  width: 200px;
+  margin: 0 auto;
+}
+
 .btn-avatar {
   position: absolute;
-  top: 230px;
-  right: 120px;
+  bottom: 0px;
+  right: 10px;
 }

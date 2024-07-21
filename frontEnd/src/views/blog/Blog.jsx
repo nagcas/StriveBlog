@@ -42,7 +42,12 @@ const Blog = (props) => {
 
   useEffect(() => {
     fetchBlog();
-  }, [fetchBlog]);
+  }, [fetchBlog, id]);
+
+  // Funzione per aggiornare i commenti
+  const updateComments = (newComments) => {
+    setComments(newComments);
+  };
 
   if (loading) {
     return (
@@ -74,7 +79,7 @@ const Blog = (props) => {
           
           <div className='content-post' dangerouslySetInnerHTML={{ __html: blog.content }}></div>
           {isLoggedIn ? 
-            <CommentList id={blog._id} comments={comments} fetchBlog={fetchBlog} />
+            <CommentList id={blog._id} comments={comments} updateComments={updateComments} />
           :
           <Alert className='mt-4 text-center' variant='light'>
             To view and leave a comment,{' '} 

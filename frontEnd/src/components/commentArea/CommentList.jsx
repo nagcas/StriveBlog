@@ -10,7 +10,7 @@ import { useContext } from 'react';
 import formatData from '../../services/formatDate.js';
 
 
-function CommentList({ id, comments, fetchBlog }) {
+function CommentList({ id, comments, updateComments }) {
 
   const { authorLogin } = useContext(Context);
 
@@ -18,7 +18,7 @@ function CommentList({ id, comments, fetchBlog }) {
     <Container className='content-area'>
       <div className='d-flex justify-content-between align-items-center mt-4'>
         <h4 className='content-title'>Comment Area <Badge size={'sm'} bg='secondary'>{comments.length}</Badge></h4>
-        <CreateComment id={id} fetchBlog={fetchBlog} />
+        <CreateComment id={id} updateComments={updateComments} />
       </div>
       <Row>
         {comments.length > 0 ? comments.map((comment) => (
@@ -41,9 +41,8 @@ function CommentList({ id, comments, fetchBlog }) {
             {(comment.email === authorLogin.email) && (
                 <div className='d-flex justify-content-end align-items-center gap-2'>
                   {/* Componenti link per eliminare e aggiornare il commento */}
-                  <EditComment id={id} comment={comment} commentId={comment._id} fetchBlog={fetchBlog} />
-                  {/* <Button variant='outline-warning' className='btn-standard' aria-label='edit'><FaEdit className='fa-icon'/> Edit</Button> */}
-                  <DeleteComment id={id} commentId={comment._id} fetchBlog={fetchBlog} />
+                  <EditComment id={id} comment={comment} commentId={comment._id} updateComments={updateComments} />
+                  <DeleteComment id={id} commentId={comment._id} updateComments={updateComments} />
                 </div>
             )}
               </Col>

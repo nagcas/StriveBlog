@@ -4,7 +4,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
 
-function DeleteComment({ id, commentId, fetchBlog }) {
+function DeleteComment({ id, commentId, updateComments }) {
 
   const [show, setShow] = useState(false);
 
@@ -19,12 +19,12 @@ function DeleteComment({ id, commentId, fetchBlog }) {
       await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments/${commentId}`, {
         method: 'DELETE',
       });
-
-      handleClose();
+      // Aggiorna i commenti nel componente padre rimuovendo il commento cancellato
+      updateComments((prevComments) => prevComments.filter(comment => comment._id !== commentId));
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      fetchBlog();
+      handleClose();
     }
   };
 

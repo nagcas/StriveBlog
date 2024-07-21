@@ -29,7 +29,6 @@ function Profile() {
   });
 
   useEffect(() => {
-    // Aggiorna lo stato solo se i dati dell'autore sono disponibili
     if (authorLogin) {
       setEditProfile({
         name: authorLogin.name || '',
@@ -107,13 +106,15 @@ function Profile() {
           <Col md={4}>
             <div className='content-image'>
               <h5 className='title-image'>Image Profile</h5>
-              <Image
-                src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar}
-                alt={authorLogin.avatar ? 'Image author' : 'Image author default'}
-                className='img-profile'
-                roundedCircle
-              />
-              <UpdateAvatar authorLogin={authorLogin} setAuthorLogin={setAuthorLogin} />
+              <div className='content-image-profile'>
+                <Image
+                  src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar}
+                  alt={authorLogin.avatar ? 'Image author' : 'Image author default'}
+                  className='img-profile'
+                  roundedCircle
+                />
+                <UpdateAvatar authorLogin={authorLogin} setAuthorLogin={setAuthorLogin} />
+              </div>
               <p className='text-center'>{authorLogin.name} {authorLogin.lastname}</p>
               <p className='text-muted text-center'>Account created on {formatData(authorLogin.createdAt, 'it')}</p>
               <h5 className='title-image'>Delete Account</h5>

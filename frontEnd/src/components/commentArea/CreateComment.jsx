@@ -4,7 +4,7 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 
 
-function CreateComment({ id, fetchBlog }) {
+function CreateComment({ id, updateComments }) {
 
   const { authorLogin } = useContext(Context);
 
@@ -75,6 +75,8 @@ function CreateComment({ id, fetchBlog }) {
         email: authorLogin.email,
         content: ''
       });
+      // Aggiorna i commenti nel componente padre con il nuovo commento
+      updateComments((prevComments) => [...prevComments, comment]);
     } catch (error) {
       console.error('Dati non inviati correttamente', error);
     } finally {
@@ -82,7 +84,6 @@ function CreateComment({ id, fetchBlog }) {
         handleClose();
         setMessage(false);
         setStateButton(true);
-        fetchBlog();
       }, 1500);
     }
   };

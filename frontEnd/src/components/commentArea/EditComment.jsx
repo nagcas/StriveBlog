@@ -5,7 +5,7 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 
 
-function EditComment({ id, comment, commentId, fetchBlog }) {
+function EditComment({ id, comment, commentId, updateComments }) {
 
   const { authorLogin } = useContext(Context);
 
@@ -76,7 +76,10 @@ function EditComment({ id, comment, commentId, fetchBlog }) {
         setMessage(false);
         setStateButton(true);
         handleClose();
-        fetchBlog();
+        // Aggiorna i commenti nel componente padre
+        updateComments((prevComments) => 
+          prevComments.map((comm) => (comm._id === comment._id ? { ...comm, content: editComment.content } : comm))
+        );
       }, 1500);
     }
   };

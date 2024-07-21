@@ -7,7 +7,7 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
 
-
+ 
 const NewBlogPost = () => {
   
   const { isLoggedIn, authorLogin } = useContext(Context);

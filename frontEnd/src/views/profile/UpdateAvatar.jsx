@@ -4,18 +4,15 @@ import { FaPencilAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
 function UpdateAvatar({ authorLogin, setAuthorLogin }) {
-  
   const URL = 'http://localhost:5001/api';
   const API_URL = process.env.REACT_APP_API_URL || URL;
-  
+
   const [show, setShow] = useState(false);
-  const [avatarFile, setAvatarFile] = useState(null); // inizializzato come null
+  const [avatarFile, setAvatarFile] = useState(null);
   const [message, setMessage] = useState(false);
-  const [errors, setErrors] = useState({});
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
 
   const handleFileChange = (e) => {
     setAvatarFile(e.target.files[0]);
@@ -33,10 +30,15 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
     formData.append('avatar', avatarFile);
 
     try {
-      await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}/avatar`, {
+      const response = await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}/avatar`, {
         method: 'PATCH',
         body: formData,
       });
+      
+      // Aggiorniamo lo stato dell'autore con la nuova URL dell'avatar
+      const updatedAuthor = await response.json();
+      setAuthorLogin(prevState => ({...prevState, avatar: updatedAuthor.avatar}));
+      
       setMessage(true);
     } catch (error) {
       console.error('Error updating avatar:', error);
@@ -45,7 +47,6 @@ function UpdateAvatar({ authorLogin, setAuthorLogin }) {
       setTimeout(() => {
         handleClose();
         setMessage(false);
-        setAuthorLogin(authorLogin);
       }, 1500);
     }
   };
