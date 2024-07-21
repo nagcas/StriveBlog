@@ -4,6 +4,7 @@ import fetchWithAuth from '../../services/fetchWithAuth';
 import { Button, Image, Dropdown } from 'react-bootstrap';
 import { Context } from '../../modules/Context.js';
 import defaultAvatar from '../../assets/default-avatar.jpg';
+import { FaAddressBook, FaArrowRight, FaIdCard, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 
 
 function LoggedIn() {
@@ -80,18 +81,17 @@ function LoggedIn() {
             />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to='/profile'>Profile</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/authors'>List Authors</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/'>Something else</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/profile'><FaIdCard /> Profile</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/authors'><FaAddressBook /> List Authors </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleLogout}>LogOut</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}><FaSignOutAlt /> LogOut</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </>
       ) : (
         <>
-          <Button as={Link} to='/register' variant='outline-primary btn-standard' className='me-3'>Register</Button>
-          <Button as={Link} to='/login' variant='outline-success btn-standard'>LogIn</Button>
+          <Button as={Link} to='/register' variant='outline-primary btn-standard' className='me-3'><FaSignInAlt /> Register</Button>
+          <Button as={Link} to='/login' variant='outline-success btn-standard'><FaArrowRight /> LogIn</Button>
         </>
       )}
     </>

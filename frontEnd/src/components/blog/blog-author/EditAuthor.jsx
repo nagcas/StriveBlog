@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaRegTimesCircle, FaSave } from 'react-icons/fa';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 import formatData from '../../../services/formatDate';
 
@@ -203,7 +203,7 @@ function EditAuthor({ author, updateAuthor }) {
                   variant='dark' 
                   onClick={handleClose}
                 >
-                  Cancel
+                  <FaRegTimesCircle /> Cancel
                 </Button>
                 <Button
                   className='btn-standard' 
@@ -211,7 +211,7 @@ function EditAuthor({ author, updateAuthor }) {
                   aria-label='button save'
                   variant='outline-success' 
                 >
-                  Save
+                  <FaSave /> Save
                 </Button>
               </Modal.Footer>
             }

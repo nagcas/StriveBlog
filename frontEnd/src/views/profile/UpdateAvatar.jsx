@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaRegTimesCircle, FaSave } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 
 function UpdateAvatar({ authorLogin, updatedAuthor }) {
@@ -80,13 +80,13 @@ function UpdateAvatar({ authorLogin, updatedAuthor }) {
                 variant='outline-dark' 
                 className='btn-standard' 
                 onClick={handleClose}>
-                Cancel
+                <FaRegTimesCircle /> Cancel
               </Button>
               <Button 
                 variant='outline-success' 
                 className='btn-standard'
                 type='submit'>
-                Save
+                <FaSave /> Save
               </Button>
             </Modal.Footer>
           )}

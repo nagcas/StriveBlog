@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaRegTimesCircle, FaTrashAlt } from 'react-icons/fa';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../../modules/Context';
@@ -64,7 +64,7 @@ function DeleteAuthor({ author }) {
             variant='dark' 
             onClick={handleClose}
           >
-            No
+            <FaRegTimesCircle /> No
           </Button>
           <Button
             className='btn-standard' 

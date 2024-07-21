@@ -5,7 +5,7 @@ import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
-import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
+import { FaHome, FaRegSave, FaRegTimesCircle, FaSave } from 'react-icons/fa';
 
 
 function EditPost() {
@@ -295,7 +295,7 @@ function EditPost() {
                 variant='outline-success'
                 aria-label='button save'
               >
-                <FaRegSave /> Save
+                <FaSave /> Save
               </Button>
             </Form.Group>
           }

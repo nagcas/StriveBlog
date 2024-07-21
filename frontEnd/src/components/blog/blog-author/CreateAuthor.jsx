@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import fetchWithAuth from '../../../services/fetchWithAuth';
+import { FaRegTimesCircle, FaSave } from 'react-icons/fa';
 
 
 function CreateAuthor({ getFetchAuthor }) {
@@ -229,7 +230,7 @@ function CreateAuthor({ getFetchAuthor }) {
                   variant='dark'
                   onClick={handleResetClose}
                 >
-                  Cancel
+                  <FaRegTimesCircle /> Cancel
                 </Button>
                 
                 <Button
@@ -238,7 +239,7 @@ function CreateAuthor({ getFetchAuthor }) {
                   aria-label='button save'
                   variant='outline-success' 
                 >
-                  Save
+                  <FaSave /> Save
                 </Button>
               </Modal.Footer>
             }

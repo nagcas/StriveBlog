@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
+import { FaRegTimesCircle, FaSave } from 'react-icons/fa';
 
 
 function CreateComment({ id, updateComments }) {
@@ -179,7 +180,7 @@ function CreateComment({ id, updateComments }) {
                   variant='dark'
                   onClick={handleResetClose}
                 >
-                  Cancel
+                  <FaRegTimesCircle /> Cancel
                 </Button>
 
                 <Button
@@ -188,7 +189,7 @@ function CreateComment({ id, updateComments }) {
                   aria-label='button save'
                   variant='outline-success'
                 >
-                  Save
+                  <FaSave /> Save
                 </Button>
               </Modal.Footer>
             )}

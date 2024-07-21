@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaRegTimesCircle, FaSave } from 'react-icons/fa';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
 
@@ -171,7 +171,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
                   variant='dark' 
                   onClick={handleResetClose}
                 >
-                  Cancel
+                  <FaRegTimesCircle /> Cancel
                 </Button>
 
                 <Button
@@ -180,7 +180,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
                   aria-label='button save'
                   variant='outline-success' 
                 >
-                  Save
+                  <FaSave /> Save
                 </Button>
               </Modal.Footer>
             )}

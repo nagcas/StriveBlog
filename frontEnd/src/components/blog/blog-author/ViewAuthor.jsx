@@ -4,7 +4,7 @@ import { Card, Image, ListGroup, Modal } from 'react-bootstrap';
 import fetchWithAuth from '../../../services/fetchWithAuth';
 
 import defaultAvatar from '../../../assets/default-avatar.jpg';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaTimes } from 'react-icons/fa';
 import formatData from '../../../services/formatDate';
 
 
@@ -74,7 +74,7 @@ function ViewAuthor({ id }) {
             className='btn btn-dark btn-standard'
             onClick={handleClose}
           >
-            Close
+            <FaTimes /> Close
           </button>
         </Modal.Footer>
       </Modal>

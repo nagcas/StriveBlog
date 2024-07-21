@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Context } from '../../modules/Context';
-import { FaHome, FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
+import { FaHome, FaRegSave, FaRegTimesCircle, FaSave } from 'react-icons/fa';
 
  
 const NewBlogPost = () => {
@@ -258,7 +258,7 @@ const NewBlogPost = () => {
                 className='btn-standard mt-3 btn-new shadow'
                 type='reset'
                 aria-label='button reset'
-                variant='dark'
+                variant='outline-dark'
                 onClick={handleResetForm}
               >
                 <FaRegTimesCircle /> Reset
@@ -270,7 +270,7 @@ const NewBlogPost = () => {
                 variant='outline-success'
                 type='submit'
               >
-                <FaRegSave /> Save
+                <FaSave /> Save
               </Button>
             </Form.Group>
           )}
