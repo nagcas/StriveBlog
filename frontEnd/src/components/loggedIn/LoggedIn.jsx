@@ -1,13 +1,17 @@
+import './LoggedIn.css';
+
 import { useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import fetchWithAuth from '../../services/fetchWithAuth';
 import { Button, Image, Dropdown } from 'react-bootstrap';
-import { Context } from '../../modules/Context.js';
+import { Context, ThemeContext } from '../../modules/Context.js';
 import defaultAvatar from '../../assets/default-avatar.jpg';
 import { FaAddressBook, FaArrowRight, FaIdCard, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 
 
 function LoggedIn() {
+
+  const [themeCtx, setThemeCtx] = useContext(ThemeContext);
   
   const navigate = useNavigate();
 
@@ -72,7 +76,11 @@ function LoggedIn() {
         <>
         <Dropdown>
           <Dropdown.Toggle className='bg-transparent border-0' variant='light' id='dropdown-basic'>
-            <span className='author-benvenuto fw-bold'>Welcome {authorLogin.name}</span>
+            <span 
+              className={themeCtx === 'dark' ? 'text-white author-benvenuto fw-bold' : 'text-dark author-benvenuto fw-bold'}
+            >
+              Welcome {authorLogin.name}
+            </span>
             <Image 
               className='image-avatar'
               src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar}

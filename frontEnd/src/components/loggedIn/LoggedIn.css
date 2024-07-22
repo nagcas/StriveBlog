@@ -1,0 +1,11 @@
+.author-benvenuto {
+  font-size: 0.7rem;
+}
+
+/* View Tablet and Desktop */
+@media (min-width: 767px) {
+  .author-benvenuto {
+    font-size: 1.0rem;
+  }
+ 
+}

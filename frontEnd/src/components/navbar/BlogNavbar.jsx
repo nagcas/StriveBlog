@@ -2,7 +2,8 @@ import './BlogNavbar.css';
 
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logoDark from '../../assets/logo-dark.png';
+import logoLight from '../../assets/logo-light.png';
 import LoggedIn from '../loggedIn/LoggedIn';
 import { ThemeContext } from '../../modules/Context'; 
 import { useContext } from 'react';
@@ -18,7 +19,11 @@ const NavBar = (props) => {
     <Navbar expand='lg' className='bg-body-tertiary fixed-top blog-navbar' bg={themeCtx} data-bs-theme={themeCtx}>
       <Container>
         <Navbar.Brand as={Link} to='/'>
-          <img className='blog-navbar-brand' alt='Logo Strive' src={logo} />
+        <img 
+          className='blog-navbar-brand' 
+          alt='Logo Strive' 
+          src={themeCtx === 'dark' ? logoLight : logoDark}
+        />
         </Navbar.Brand>
         <Navbar.Collapse id='navbarScroll'>
           <Nav className='me-auto'>
