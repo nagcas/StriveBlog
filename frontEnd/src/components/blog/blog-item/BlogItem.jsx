@@ -7,7 +7,7 @@ import DeletePost from './DeletePost'; // Importa il componente DeletePost per g
 import { FaEdit } from 'react-icons/fa'; // Importa l'icona FaEdit da react-icons per il bottone di modifica
 import { Context } from '../../../modules/Context.js'; // Importa il contesto dell'applicazione per accedere alle informazioni di login
 import { useContext } from 'react'; // Importa il hook useContext da React per utilizzare il contesto
-
+import defaultCover from '../../../assets/blog_default.jpg';
 
 const BlogItem = (props) => {
   
@@ -23,7 +23,12 @@ const BlogItem = (props) => {
         {/* Mostra la categoria del post */}
         <span className='category float-start m-2'>{category}</span>
         {/* Immagine di copertina del post */}
-        <Card.Img variant='top' src={cover} className='blog-cover' />
+        <Card.Img 
+          variant='top' 
+          src={cover ? cover : defaultCover}
+          alt={cover ? 'Image cover' : 'Image cover default'}
+          className='blog-cover' 
+          />
         <Card.Body> {/* Corpo della Card */}
           {/* Titolo del post */}
           <Card.Title className='card-title'>{title}</Card.Title>
