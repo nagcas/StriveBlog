@@ -1,58 +1,54 @@
 import './BlogAuthor.css';
-
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { Container, Col, Image, Pagination, Row, Spinner, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
 import ViewAuthor from './ViewAuthor';
 import fetchWithAuth from '../../../services/fetchWithAuth';
-
 import defaultAvatar from '../../../assets/default-avatar.jpg';
 import { Context } from '../../../modules/Context.js';
 
-
 const BlogAuthor = () => {
-
+  // Accesso allo stato di login dal contesto globale
   const { isLoggedIn } = useContext(Context);
 
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  // Definizione dell'URL API con fallback
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 
+  // Stati per gestire gli autori, lo spinner e la paginazione
   const [authors, setAuthors] = useState([]);
   const [isSpinner, setIsSpinner] = useState(false);
-
-  // Paginazione
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(16);
 
+  // Funzione per recuperare gli autori dall'API
   const getFetchAuthor = useCallback(async () => {
     setIsSpinner(true);
-
     try {
       const response = await fetchWithAuth(`${API_URL}/authors?page=${currentPage}&limit=${limit}`);
-
       setAuthors(response.authors);
       setTotalPages(response.totalPages);
     } catch (error) {
       console.error('Error calling endpoint', error);
+      // Qui potresti gestire l'errore, ad esempio mostrando un messaggio all'utente
     } finally {
       setIsSpinner(false);
     }
   }, [API_URL, currentPage, limit]);
 
+  // Effetto per caricare gli autori quando l'utente è loggato o cambiano i parametri di paginazione
   useEffect(() => {
     if (isLoggedIn) {
       getFetchAuthor();
     }
-  }, [API_URL, isLoggedIn, getFetchAuthor]);
+  }, [isLoggedIn, getFetchAuthor]);
 
   return (
     <Container className='content-authors'>
       <h1 className='blog-main-title mb-3 text-center'>List of authors</h1>
       {isLoggedIn ? (
         <>
-          {/* <CreateAuthor getFetchAuthor={getFetchAuthor} /> */}
+          {/* Spinner di caricamento */}
           <div className='d-flex justify-content-center mx-4'>
             {isSpinner && <Spinner animation='border' variant='secondary' className='mx-5' />}
           </div>
@@ -64,8 +60,8 @@ const BlogAuthor = () => {
                   <div className='author-card'>
                     <Image
                       className='author-avatar'
-                      src={author.avatar ? author.avatar : defaultAvatar}
-                      alt={author.avatar ? 'Image user' : 'Image user default'}
+                      src={author.avatar || defaultAvatar}
+                      alt={`Avatar of ${author.name}`}
                     />
                     <div className='author-name'>
                       <h6>{author.name} {author.lastname}</h6>
@@ -73,12 +69,7 @@ const BlogAuthor = () => {
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center'>
                       <ViewAuthor id={author._id} />
-                      {/* {authorLogin && authorLogin.email === author.email && (
-                        <>
-                          <EditAuthor author={author} updateAuthor={updateAuthor} />
-                          <DeleteAuthor author={author} getFetchAuthor={getFetchAuthor} />
-                        </>
-                      )} */}
+                      {/* Qui potrebbero essere inseriti i componenti EditAuthor e DeleteAuthor */}
                     </div>
                   </div>
                 </Col>
@@ -87,7 +78,7 @@ const BlogAuthor = () => {
               <Alert variant='warning' className='mt-3 text-center'>No authors present in the database...</Alert>
             )}
           </Row>
-          {/* Impaginazione */}
+          {/* Componente di paginazione */}
           <Pagination className='float-end'>
             <Pagination.First
               className='btn-pagination'
@@ -135,6 +126,7 @@ const BlogAuthor = () => {
           </div>
         </>
       ) : (
+        // Messaggio mostrato quando l'utente non è loggato
         <Alert className='mt-4 text-center' variant='light'>
           To view the list of authors,{' '}
           <Link to={'/register'} className='link-register'>

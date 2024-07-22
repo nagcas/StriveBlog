@@ -2,8 +2,8 @@
   width: 100%;
   border-radius: 15px;
   margin-bottom: 50px;
-  max-height: 45vh;
-  object-fit: cover;
+  max-height: 35vh;
+  object-fit: content;
   object-position: 0% 50%;
   aspect-ratio: 1/1;
   margin-top: 30px;
@@ -59,4 +59,19 @@
 .link-register:hover,
 .link-login:hover {
   color: #ccc;
+}
+
+
+/* View Tablet and Desktop */
+@media (min-width: 767px) {
+  .blog-details-cover {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 50px;
+    max-height: 45vh;
+    object-fit: cover;
+    object-position: 0% 40%;
+    aspect-ratio: 1/1;
+    margin-top: 30px;
+  }
 }

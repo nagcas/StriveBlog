@@ -1,64 +1,66 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
-import { Button, Col, Container, Pagination, Row, Spinner } from 'react-bootstrap';
-import BlogItem from '../blog-item/BlogItem';
-import BlogCardPlaceholder from '../../blogPlaceholder/BlogCardPlaceholder';
-import fetchWithAuth from '../../../services/fetchWithAuth.js';
-import { Link } from 'react-router-dom';
-import { Context } from '../../../modules/Context.js';
+import React, { useEffect, useState, useCallback, useContext } from 'react'; // Importa i hooks di React necessari
+import { Button, Col, Container, Pagination, Row, Spinner } from 'react-bootstrap'; // Importa i componenti di React-Bootstrap
+import BlogItem from '../blog-item/BlogItem'; // Importa il componente BlogItem
+import BlogCardPlaceholder from '../../blogPlaceholder/BlogCardPlaceholder'; // Importa il componente BlogCardPlaceholder
+import fetchWithAuth from '../../../services/fetchWithAuth.js'; // Importa la funzione fetchWithAuth per le richieste HTTP autenticati
+import { Link } from 'react-router-dom'; // Importa il componente Link per la navigazione
+import { Context } from '../../../modules/Context.js'; // Importa il contesto dell'applicazione
 
-
-const BlogList = ({ search }) => {
+const BlogList = ({ search }) => { // Definisce il componente BlogList e accetta una prop di ricerca
   
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  const URL = 'http://localhost:5001/api'; // URL di base dell'API
+  const API_URL = process.env.REACT_APP_API_URL || URL; // Usa l'URL dell'API da una variabile d'ambiente, se disponibile, altrimenti usa l'URL locale
 
-  const { isLoggedIn } = useContext(Context);
+  const { isLoggedIn } = useContext(Context); // Usa il hook useContext per accedere ai dati del contesto, inclusa l'informazione se l'utente è loggato
 
-  const [listPosts, setListPosts] = useState([]);
-  const [isSpinner, setisSpinner] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [listPosts, setListPosts] = useState([]); // Stato per la lista dei post
+  const [isSpinner, setisSpinner] = useState(false); // Stato per il controllo dello spinner di caricamento
+  const [loading, setLoading] = useState(true); // Stato per il controllo del caricamento iniziale
 
   // Paginazione
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState(16);
+  const [currentPage, setCurrentPage] = useState(1); // Stato per la pagina corrente
+  const [totalPages, setTotalPages] = useState(1); // Stato per il totale delle pagine
+  const [limit, setLimit] = useState(16); // Stato per il limite di post per pagina
 
+  // Funzione per recuperare i post, memorizzata usando useCallback per evitare ricreazioni inutili
   const getFetchPosts = useCallback(async () => {
-    setisSpinner(true);
+    setisSpinner(true); // Mostra lo spinner di caricamento
 
     try {
-      const data = await fetchWithAuth(`${API_URL}/blogPosts?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`);
-      setListPosts(data.posts);
-      setTotalPages(data.totalPages);
+      const data = await fetchWithAuth(`${API_URL}/blogPosts?page=${currentPage}&limit=${limit}&sort=createdAt&sortDirection=desc`); // Effettua la richiesta HTTP per ottenere i post
+      setListPosts(data.posts); // Imposta la lista dei post nello stato
+      setTotalPages(data.totalPages); // Imposta il totale delle pagine nello stato
     } catch (error) {
-      console.error('Errore', error);
+      console.error('Errore', error); // Gestione dell'errore
     } finally {
-      setisSpinner(false);
-      setLoading(false);
+      setisSpinner(false); // Nasconde lo spinner di caricamento
+      setLoading(false); // Imposta il caricamento iniziale a false
     }
-  }, [API_URL, currentPage, limit])
+  }, [API_URL, currentPage, limit]); // Dipendenze del useCallback
 
+  // Effettua la chiamata per recuperare i post quando il componente viene montato o quando API_URL, getFetchPosts cambiano
   useEffect(() => {
     getFetchPosts();
   }, [API_URL, getFetchPosts]);
 
-
-  // Creare i placeholder
+  // Creare i placeholder per il caricamento
   const placeholders = [];
   for (let i = 0; i < limit; i++) {
     placeholders.push(
       <Col key={i} md={4} lg={3} style={{ marginBottom: 50 }}>
-        <BlogCardPlaceholder />
+        <BlogCardPlaceholder /> {/* Componente placeholder */}
       </Col>
     );
   }
 
   return (
     <>
+      {/* Spinner di caricamento */}
       <div className='d-flex justify-content-center m-3'>
         {isSpinner && <Spinner animation='border' variant='secondary' />}
       </div>
       
+      {/* Bottone per creare un nuovo post, visibile solo se l'utente è loggato */}
       {isLoggedIn && (
         <Container className='d-flex justify-content-end mb-4'>
           <Button
@@ -83,19 +85,23 @@ const BlogList = ({ search }) => {
         </Container>
       )}
 
+      {/* Elenco dei post */}
       <Row>
         {loading
-          ? placeholders
+          ? placeholders // Mostra i placeholder durante il caricamento
           : listPosts
-              .filter((post) => (post.title.toLowerCase().includes(search.toLowerCase())) || (post.author.email.toLowerCase().includes(search.toLowerCase())) )
+              .filter((post) => 
+                post.title.toLowerCase().includes(search.toLowerCase()) || 
+                post.author.email.toLowerCase().includes(search.toLowerCase())
+              ) // Filtra i post in base alla ricerca
               .map((post) => (
                 <Col key={post._id} md={4} lg={3} style={{ marginBottom: 50 }}>
-                  <BlogItem key={post._id} {...post} getFetchPosts={getFetchPosts} />
+                  <BlogItem key={post._id} {...post} getFetchPosts={getFetchPosts} /> {/* Componente BlogItem */}
                 </Col>
               ))}
       </Row>
 
-      {/* Impaginazione */}
+      {/* Paginazione */}
       <Pagination className='float-end'>
         <Pagination.First
           className='btn-pagination'
@@ -150,6 +156,7 @@ const BlogList = ({ search }) => {
   );
 };
 
-export default BlogList;
+export default BlogList; // Esporta il componente BlogList per l'uso in altri file
+
 
 

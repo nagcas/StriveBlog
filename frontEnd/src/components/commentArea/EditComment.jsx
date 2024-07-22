@@ -1,24 +1,22 @@
-import { useContext, useState } from 'react';
-import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import { FaEdit, FaRegTimesCircle, FaSave } from 'react-icons/fa';
-import fetchWithAuth from '../../services/fetchWithAuth';
-import { Context } from '../../modules/Context';
-
+import { useContext, useState } from 'react'; // Hook di React per gestire stato e contesto
+import { Alert, Button, Form, Modal } from 'react-bootstrap'; // Componenti di React-Bootstrap per UI
+import { FaEdit, FaRegTimesCircle, FaSave } from 'react-icons/fa'; // Icone FontAwesome
+import fetchWithAuth from '../../services/fetchWithAuth'; // Funzione per effettuare richieste API autenticate
+import { Context } from '../../modules/Context'; // Contesto per ottenere informazioni sull'utente
 
 function EditComment({ id, comment, commentId, updateComments }) {
-
-  const { authorLogin } = useContext(Context);
+  const { authorLogin } = useContext(Context); // Ottiene informazioni sull'utente loggato dal contesto
 
   const URL = 'http://localhost:5001/api';
   const API_URL = process.env.REACT_APP_API_URL || URL;
 
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState(false);
-  const [stateButton, setStateButton] = useState(true);
-  const [errors, setErrors] = useState({});
+  const [show, setShow] = useState(false); // Stato per la visibilità del modal
+  const [message, setMessage] = useState(false); // Stato per il messaggio di conferma
+  const [stateButton, setStateButton] = useState(true); // Stato per gestire l'abilitazione/disabilitazione dei bottoni
+  const [errors, setErrors] = useState({}); // Stato per memorizzare eventuali errori di validazione
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false); // Chiude il modal
+  const handleShow = () => setShow(true); // Mostra il modal
 
   const [editComment, setEditComment] = useState({
     _id: authorLogin._id,
@@ -27,7 +25,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
     content: comment.content,
   });
 
-
+  // Gestisce le modifiche ai campi del modulo
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditComment({
@@ -37,53 +35,54 @@ function EditComment({ id, comment, commentId, updateComments }) {
     setErrors({
       ...errors,
       [name]: ''
-    })
+    });
   };
 
+  // Funzione per la validazione del commento
   const validate = () => {
     const newErrors = {};
     if (!editComment.content.trim()) {
-      newErrors.content = 'you must enter a comment...';
+      newErrors.content = 'You must enter a comment...'; // Messaggio di errore se il campo contenuto è vuoto
     }
     return newErrors;
   };
 
+  // Gestisce l'invio del modulo di modifica
   const handleEditSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Previene il comportamento predefinito del form
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-  
+
     try {
       await fetchWithAuth(`${API_URL}/blogPosts/${id}/comments/${commentId}`, {
-        method: 'PATCH',
+        method: 'PATCH', // Metodo HTTP per aggiornare il commento
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(editComment),
+        body: JSON.stringify(editComment), // Corpo della richiesta con il commento aggiornato
       });
-      //console.log(response);
       
-      setMessage(true);
-      setStateButton(false);
-      // Aggiorna i commenti nel componente padre
+      setMessage(true); // Mostra il messaggio di successo
+      setStateButton(false); // Disabilita i bottoni per evitare ulteriori modifiche
       updateComments((prevComments) => 
         prevComments.map((comm) => (comm._id === comment._id ? { ...comm, content: editComment.content } : comm))
-      );
+      ); // Aggiorna il commento nella lista del componente padre
     } catch (error) {
-      console.error('Errore invio dati', error);
+      console.error('Errore invio dati', error); // Log degli errori
     } finally {
       setTimeout(() => {
-        setMessage(false);
-        setStateButton(true);
-        handleClose();
+        setMessage(false); // Nasconde il messaggio di successo dopo un timeout
+        setStateButton(true); // Riabilita i bottoni
+        handleClose(); // Chiude il modal
       }, 1500);
     }
   };
 
+  // Gestisce la chiusura del modal e il reset degli errori
   const handleResetClose = () => {
     handleClose();
     setErrors({});
@@ -92,12 +91,12 @@ function EditComment({ id, comment, commentId, updateComments }) {
   return (
     <>
       <Button
-        className='me-3 btn-standard' 
+        className='me-3 btn-standard'
         aria-label='button edit'
-        variant='outline-warning' 
-        onClick={handleShow}
+        variant='outline-warning'
+        onClick={handleShow} // Mostra il modal quando cliccato
       >
-        <FaEdit className='fa-icon'/> Edit
+        <FaEdit className='fa-icon' /> Edit
       </Button>
 
       <Modal size='lg' show={show} onHide={handleClose}>
@@ -108,7 +107,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
           <p className='float-end'>Fields marked with * are mandatory.</p>
           <Form onSubmit={handleEditSubmit}>
             <Form.Group className='mb-3' controlId='edit-comment-id'>
-              <Form.Label className='fw-bold'>id</Form.Label>
+              <Form.Label className='fw-bold'>ID</Form.Label>
               <Form.Control 
                 className='form-control-plaintext border-0 border-bottom mb-4'
                 name='id'
@@ -153,23 +152,23 @@ function EditComment({ id, comment, commentId, updateComments }) {
                 aria-label='content'
                 value={editComment.content}
                 placeholder='Insert your comment...'
-                onChange={handleChange}
+                onChange={handleChange} // Gestisce le modifiche al contenuto
                 required
               />
 
-              {errors.content && <p className='text-danger'>{errors.content}</p>}
+              {errors.content && <p className='text-danger'>{errors.content}</p>} {/* Mostra errori di validazione */}
 
             </Form.Group>
 
-            {message && <Alert className='m-3 text-center' variant='success'>Comment updated successfully...</Alert>}
+            {message && <Alert className='m-3 text-center' variant='success'>Comment updated successfully...</Alert>} {/* Mostra messaggio di successo */}
             
             {stateButton && (
               <Modal.Footer>
                 <Button
-                  className='me-3 btn-standard' 
+                  className='me-3 btn-standard'
                   aria-label='button cancel'
-                  variant='dark' 
-                  onClick={handleResetClose}
+                  variant='dark'
+                  onClick={handleResetClose} // Chiude il modal e resetta gli errori
                 >
                   <FaRegTimesCircle /> Cancel
                 </Button>
@@ -178,7 +177,7 @@ function EditComment({ id, comment, commentId, updateComments }) {
                   className='btn-standard'
                   type='submit'
                   aria-label='button save'
-                  variant='outline-success' 
+                  variant='outline-success'
                 >
                   <FaSave /> Save
                 </Button>
@@ -192,3 +191,4 @@ function EditComment({ id, comment, commentId, updateComments }) {
 }
 
 export default EditComment;
+

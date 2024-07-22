@@ -1,25 +1,25 @@
-import './Profile.css';
-import { useContext, useEffect, useState } from 'react';
-import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { Context } from '../../modules/Context.js';
-import defaultAvatar from '../../assets/default-avatar.jpg';
-import { Link } from 'react-router-dom';
-import fetchWithAuth from '../../services/fetchWithAuth.js';
-import formatData from '../../services/formatDate.js';
-import DeleteAuthor from '../../components/blog/blog-author/DeleteAuthor.jsx';
-import { FaRegSave, FaRegTimesCircle } from 'react-icons/fa';
-import UpdateAvatar from './UpdateAvatar.jsx';
+import './Profile.css'; // Importa il foglio di stile per il componente Profile.
+import { useContext, useEffect, useState } from 'react'; // Importa gli hook di React.
+import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap'; // Importa componenti di Bootstrap.
+import { Context } from '../../modules/Context.js'; // Importa il contesto per lo stato dell'autore.
+import defaultAvatar from '../../assets/default-avatar.jpg'; // Immagine predefinita per l'avatar.
+import { Link } from 'react-router-dom'; // Importa il componente Link per la navigazione.
+import fetchWithAuth from '../../services/fetchWithAuth.js'; // Funzione per fare chiamate API con autenticazione.
+import formatData from '../../services/formatDate.js'; // Funzione per formattare le date.
+import DeleteAuthor from '../../components/blog/blog-author/DeleteAuthor.jsx'; // Componente per eliminare l'autore.
+import { FaRegSave, FaRegTimesCircle } from 'react-icons/fa'; // Icone per le azioni di salvataggio e annullamento.
+import UpdateAvatar from './UpdateAvatar.jsx'; // Componente per aggiornare l'avatar dell'autore.
 
 function Profile() {
-  const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context);
+  const { isLoggedIn, authorLogin, setAuthorLogin } = useContext(Context); // Ottieni lo stato dell'autore dal contesto.
 
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  const URL = 'http://localhost:5001/api'; // URL dell'API.
+  const API_URL = process.env.REACT_APP_API_URL || URL; // Usa l'URL dell'API dall'ambiente o il valore predefinito.
 
-  const [message, setMessage] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState(false); // Stato per visualizzare messaggi di successo.
+  const [errors, setErrors] = useState({}); // Stato per memorizzare errori di validazione.
 
-  // Inizializza lo stato con valori predefiniti per evitare input non controllati
+  // Stato iniziale per l'editing del profilo, con valori predefiniti per evitare input non controllati.
   const [editProfile, setEditProfile] = useState({
     name: authorLogin.name || '',
     lastname: authorLogin.lastname || '',
@@ -28,6 +28,7 @@ function Profile() {
     avatar: authorLogin.avatar || '',
   });
 
+  // Aggiorna lo stato del profilo quando l'oggetto authorLogin cambia.
   useEffect(() => {
     if (authorLogin) {
       setEditProfile({
@@ -40,46 +41,50 @@ function Profile() {
     }
   }, [authorLogin]);
 
+  // Gestisce i cambiamenti nei campi del profilo.
   const handleChangeProfile = (e) => {
     const { name, value } = e.target;
     setEditProfile({
       ...editProfile,
       [name]: value
     });
-    // Resetto uno specifico errore nel form
+    // Reset specifico errore per il campo modificato
     setErrors({
       ...errors,
       [name]: ''
     });
   };
 
+  // Funzione per validare i dati del profilo.
   const validate = () => {
     const newErrors = {};
     if (!editProfile.name.trim()) {
-      newErrors.name = 'You must enter a name...';
-    };
+      newErrors.name = 'You must enter a name...'; // Errore se il nome non è inserito.
+    }
     if (!editProfile.lastname.trim()) {
-      newErrors.lastname = 'You must enter a lastname...';
-    };
+      newErrors.lastname = 'You must enter a lastname...'; // Errore se il cognome non è inserito.
+    }
     if (!editProfile.email.trim()) {
-      newErrors.email = 'You must enter an email...';
-    };
+      newErrors.email = 'You must enter an email...'; // Errore se l'email non è inserita.
+    }
     if (!editProfile.birthdate.trim()) {
-      newErrors.birthdate = 'You must enter a date of birth...';
-    };
+      newErrors.birthdate = 'You must enter a date of birth...'; // Errore se la data di nascita non è inserita.
+    }
     return newErrors;
   };
 
+  // Gestisce l'aggiornamento del profilo.
   const handleEditProfile = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Previene l'invio del modulo predefinito.
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setErrors(validationErrors); // Imposta gli errori di validazione.
       return;
     }
 
     try {
+      // Effettua una richiesta PATCH per aggiornare il profilo dell'autore.
       await fetchWithAuth(`${API_URL}/authors/${authorLogin._id}`, {
         method: 'PATCH',
         headers: {
@@ -88,50 +93,50 @@ function Profile() {
         body: JSON.stringify(editProfile),
       });
 
-      setMessage(true);
+      setMessage(true); // Mostra un messaggio di successo.
     } catch (error) {
-      console.error('Errore invio dati', error);
+      console.error('Errore invio dati', error); // Log dell'errore.
     } finally {
       setTimeout(() => {
-        setMessage(false);
-        setAuthorLogin({ ...authorLogin, ...editProfile });
+        setMessage(false); // Nasconde il messaggio dopo 1.5 secondi.
+        setAuthorLogin({ ...authorLogin, ...editProfile }); // Aggiorna lo stato dell'autore nel contesto.
       }, 1500);
     }
   };
 
-  // Funzione per aggiornare il profilo
+  // Funzione per aggiornare l'autore e il profilo.
   const updatedAuthor = (updatedProfile) => {
     setEditProfile(updatedProfile);
     setAuthorLogin(updatedProfile);
   };
 
   return (
-    <Container className='content-profile'>
-      {(authorLogin && isLoggedIn) ? (
+    <Container className='content-profile'> {/* Contenitore principale per il profilo */}
+      {(authorLogin && isLoggedIn) ? ( // Mostra il profilo solo se l'utente è autenticato
         <Row>
-          <Col md={4}>
+          <Col md={4}> {/* Colonna per l'immagine e l'azione di eliminazione */}
             <div className='content-image'>
               <h5 className='title-image'>Image Profile</h5>
               <div className='content-image-profile'>
                 <Image
-                  src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar}
+                  src={authorLogin.avatar ? authorLogin.avatar : defaultAvatar} // Mostra l'avatar dell'autore o l'avatar predefinito.
                   alt={authorLogin.avatar ? 'Image author' : 'Image author default'}
                   className='img-profile shadow'
                   roundedCircle
                 />
-                <UpdateAvatar authorLogin={authorLogin} updatedAuthor={updatedAuthor} />
+                <UpdateAvatar authorLogin={authorLogin} updatedAuthor={updatedAuthor} /> {/* Componente per aggiornare l'avatar */}
               </div>
               <p className='text-center'>{authorLogin.name} {authorLogin.lastname}</p>
               <p className='text-muted text-center'>Account created on {formatData(authorLogin.createdAt, 'it')}</p>
               <h5 className='title-image'>Delete Account</h5>
-              <DeleteAuthor author={authorLogin} />
+              <DeleteAuthor author={authorLogin} /> {/* Componente per eliminare l'account */}
             </div>
           </Col>
 
-          <Col md={8}>
+          <Col md={8}> {/* Colonna per i dati del profilo */}
             <div className='content-dati'>
               <h5 className='title-dati'>Profile Author</h5>
-              <Form onSubmit={handleEditProfile}>
+              <Form onSubmit={handleEditProfile}> {/* Modulo per l'aggiornamento del profilo */}
                 <Form.Group className='mb-3' controlId='edit-author-id'>
                   <Form.Label className='fw-bold'>ID</Form.Label>
                   <Form.Control
@@ -235,5 +240,6 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Profile; // Esporta il componente Profile.
+
 

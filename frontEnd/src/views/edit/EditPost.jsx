@@ -1,58 +1,58 @@
-import './EditPost.css';
+import './EditPost.css'; // Importa gli stili per il componente EditPost.
 
-import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import fetchWithAuth from '../../services/fetchWithAuth';
-import { Context } from '../../modules/Context';
-import { FaHome, FaRegSave, FaRegTimesCircle, FaSave } from 'react-icons/fa';
-
+import React, { useContext, useEffect, useState } from 'react'; // Importa hook React necessari.
+import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap'; // Importa componenti di Bootstrap.
+import { Link, useNavigate, useParams } from 'react-router-dom'; // Importa hook per il routing.
+import fetchWithAuth from '../../services/fetchWithAuth'; // Importa la funzione per le chiamate API con autenticazione.
+import { Context } from '../../modules/Context'; // Importa il contesto per lo stato di autenticazione.
+import { FaHome, FaRegSave, FaRegTimesCircle, FaSave } from 'react-icons/fa'; // Importa icone per i pulsanti.
 
 function EditPost() {
   
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const navigate = useNavigate(); // Hook per navigare tra le pagine.
+  const { id } = useParams(); // Ottiene l'ID del post dalla URL.
 
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  const URL = 'http://localhost:5001/api'; // URL predefinito per le API.
+  const API_URL = process.env.REACT_APP_API_URL || URL; // URL dell'API configurabile tramite variabile d'ambiente.
 
-  const [message, setMessage] = useState(false);
-  const [stateButton, setStateButton] = useState(true);
-  const [errors, setErrors] = useState({});
-  const [coverFile, setCoverFile] = useState(null);
+  const [message, setMessage] = useState(false); // Stato per il messaggio di successo.
+  const [stateButton, setStateButton] = useState(true); // Stato per abilitare/disabilitare i pulsanti.
+  const [errors, setErrors] = useState({}); // Stato per gli errori di validazione.
+  const [coverFile, setCoverFile] = useState(null); // Stato per il file di copertura.
 
-  const { authorLogin, isLoggedIn } = useContext(Context);
+  const { authorLogin, isLoggedIn } = useContext(Context); // Ottiene lo stato di autenticazione e le informazioni dell'autore dal contesto.
 
-  const initialState =
-    {
-      title: '',
-      category: '',
-      readTime: {
-        value: 1,
-        unit: ''
-      },
-      author: {
-        email: authorLogin.email || ''
-      },
-      content: '',
-      cover: '',
-    };
+  // Stato iniziale del post con valori predefiniti.
+  const initialState = {
+    title: '',
+    category: '',
+    readTime: {
+      value: 1,
+      unit: ''
+    },
+    author: {
+      email: authorLogin.email || ''
+    },
+    content: '',
+    cover: '',
+  };
 
-  const [editPost, setEditPost] = useState(initialState);
+  const [editPost, setEditPost] = useState(initialState); // Stato per il post in fase di modifica.
 
+  // Effetto per caricare i dati del post all'avvio del componente.
   useEffect(() => {
     const fetchPostData = async () => {
       try {
         const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`);
-        setEditPost(response);
-        //console.log(response);
+        setEditPost(response); // Imposta i dati del post nello stato.
       } catch (error) {
-        console.error('Post not loaded correctly...', error);
+        console.error('Post not loaded correctly...', error); // Gestisce eventuali errori di caricamento.
       }
     };
-    fetchPostData();
-  }, [API_URL, id]);
+    fetchPostData(); // Chiama la funzione per caricare i dati del post.
+  }, [API_URL, id]); // Ricarica i dati quando cambia API_URL o id.
 
+  // Funzione per gestire le modifiche ai campi del modulo.
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'readTimeValue') {
@@ -64,16 +64,13 @@ function EditPost() {
         readTimeUnit: ''
       }));
     } else if (name === 'authorEmail') {
-      setEditPost({ ...editPost, author: { ...editPost.author, email: value } 
-    });
-      
+      setEditPost({ ...editPost, author: { ...editPost.author, email: value } });
       setErrors((prevErrors) => ({
         ...prevErrors,
         authorEmail: ''  
       }));
     } else {
       setEditPost({ ...editPost, [name]: value });
-      
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: ''
@@ -81,6 +78,7 @@ function EditPost() {
     }
   };
 
+  // Funzione per validare i dati del modulo.
   const validate = () => {
     const newErrors = {};
     if (!editPost.category.trim()) {
@@ -98,55 +96,58 @@ function EditPost() {
     return newErrors;
   };
 
+  // Funzione per gestire il cambio del file di copertura.
   const handleFileChange = (e) => {
-    setCoverFile(e.target.files[0]);
+    setCoverFile(e.target.files[0]); // Imposta il file di copertura nello stato.
   };
 
+  // Funzione per gestire la sottomissione del modulo di modifica.
   const handleEditPost = async (e) => {
-    e.preventDefault();
-  
-    const validationErrors = validate();
+    e.preventDefault(); // Previene il comportamento predefinito del modulo.
+
+    const validationErrors = validate(); // Valida i dati del modulo.
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setErrors(validationErrors); // Mostra gli errori di validazione.
       return;
     }
   
-    setErrors({});
-  
+    setErrors({}); // Resetta gli errori.
+
     try {
       const response = await fetchWithAuth(`${API_URL}/blogPosts/${id}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json' // importante bisogna cambiare con multipart/form-data
+          'Content-Type': 'application/json' // Tipo di contenuto per la richiesta PATCH.
         },
         body: JSON.stringify(editPost),
       });
-      console.log(response);
-      setMessage(true);
-      setStateButton(false);
+      console.log(response); // Mostra la risposta della richiesta.
+      setMessage(true); // Mostra un messaggio di successo.
+      setStateButton(false); // Disabilita i pulsanti.
     } catch (err) {
-      console.log('Error editing post...', err);
+      console.log('Error editing post...', err); // Gestisce eventuali errori.
     } finally {
       setTimeout(() => {
-        setMessage(false);
-        setStateButton(true);
-        navigate('/');
+        setMessage(false); // Nasconde il messaggio di successo.
+        setStateButton(true); // Riabilita i pulsanti.
+        navigate('/'); // Naviga alla pagina principale.
       }, 1500);
     }
   };
   
+  // Funzione per resettare il modulo di modifica.
   const handleResetForm = () => {
-    setEditPost(initialState);
-    //setCoverFile(null);
-    setErrors({});
+    setEditPost(initialState); // Resetta il modulo ai valori iniziali.
+    //setCoverFile(null); // (Commentato) Potrebbe essere usato per resettare il file di copertura.
+    setErrors({}); // Resetta gli errori.
   };
 
   return (
     <Container className='new-blog-container'>
-      {(isLoggedIn && authorLogin) ? (
-        <Form className='mt-5' onSubmit={handleEditPost}>
-          <h4 className='text-center edit-title'>Edit Post id: {id}</h4>
-          <p className='mx-2 mt-2 float-end'>Fields marked with * are mandatory.</p>
+      {(isLoggedIn && authorLogin) ? ( // Controlla se l'utente è autenticato e ha effettuato il login.
+        <Form className='mt-5' onSubmit={handleEditPost}> {/* Modulo per modificare il post */}
+          <h4 className='text-center edit-title'>Edit Post id: {id}</h4> {/* Titolo del modulo */}
+          <p className='mx-2 mt-2 float-end'>Fields marked with * are mandatory.</p> {/* Indicazione sui campi obbligatori */}
           <Form.Group controlId='blog-form-title' className='mt-3'>
             <Form.Label className='fw-bold'>*Title</Form.Label>
             <Form.Control
@@ -160,7 +161,7 @@ function EditPost() {
               autoFocus
             />
 
-            {errors.title && <p className='text-danger'>{errors.title}</p>}
+            {errors.title && <p className='text-danger'>{errors.title}</p>} {/* Mostra errore se presente */}
 
           </Form.Group>
 
@@ -182,7 +183,7 @@ function EditPost() {
               <option value='Business'>Business</option>
             </Form.Control>
 
-            {errors.category && <p className='text-danger'>{errors.category}</p>}
+            {errors.category && <p className='text-danger'>{errors.category}</p>} {/* Mostra errore se presente */}
           
           </Form.Group>
 
@@ -200,7 +201,7 @@ function EditPost() {
                   onChange={handleInputChange}
                 />
                 
-                {errors.readTime && <p className='text-danger'>{errors.readTime.value}</p>}
+                {errors.readTime && <p className='text-danger'>{errors.readTime.value}</p>} {/* Mostra errore se presente */}
               
               </Form.Group>
             </Col>
@@ -221,7 +222,7 @@ function EditPost() {
                   <option value='hours'>hours</option>
                 </Form.Control>
 
-                {errors.readTimeUnit && <p className='text-danger'>{errors.readTimeUnit}</p>}
+                {errors.readTimeUnit && <p className='text-danger'>{errors.readTimeUnit}</p>} {/* Mostra errore se presente */}
 
               </Form.Group>
             </Col>
@@ -251,7 +252,7 @@ function EditPost() {
               onChange={handleInputChange}
             />
             
-            {errors.content && <p className='text-danger'>{errors.content}</p>}
+            {errors.content && <p className='text-danger'>{errors.content}</p>} {/* Mostra errore se presente */}
 
           </Form.Group>
 
@@ -266,8 +267,8 @@ function EditPost() {
             />
           </Form.Group>
 
-          {message && <Alert className='mt-3 text-center' variant='success'>Post updated successfully...</Alert>}
-          
+          {message && <Alert className='mt-3 text-center' variant='success'>Post updated successfully...</Alert>} {/* Mostra il messaggio di successo */}
+
           {stateButton && 
             <Form.Group className='d-flex mt-3 justify-content-end'>
               <Button
@@ -317,5 +318,6 @@ function EditPost() {
   );
 }
 
-export default EditPost;
+export default EditPost; // Esporta il componente EditPost.
+
 

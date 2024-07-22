@@ -1,33 +1,31 @@
-import { useContext, useState } from 'react';
-import { Alert, Button, Form, Modal } from 'react-bootstrap';
-import fetchWithAuth from '../../services/fetchWithAuth';
-import { Context } from '../../modules/Context';
-import { FaRegTimesCircle, FaSave } from 'react-icons/fa';
-
+import { useContext, useState } from 'react'; // Hook di React
+import { Alert, Button, Form, Modal } from 'react-bootstrap'; // Componenti di React-Bootstrap
+import fetchWithAuth from '../../services/fetchWithAuth'; // Funzione per richieste API autenticate
+import { Context } from '../../modules/Context'; // Contesto dell'app
+import { FaRegTimesCircle, FaSave } from 'react-icons/fa'; // Icone FontAwesome
 
 function CreateComment({ id, updateComments }) {
+  const { authorLogin } = useContext(Context); // Utente loggato
 
-  const { authorLogin } = useContext(Context);
+  const URL = 'http://localhost:5001/api'; // URL di base per l'API
+  const API_URL = process.env.REACT_APP_API_URL || URL; // URL API
 
-  const URL = 'http://localhost:5001/api';
-  const API_URL = process.env.REACT_APP_API_URL || URL;
+  const [show, setShow] = useState(false); // Stato per mostrare/nascondere il modal
+  const [message, setMessage] = useState(false); // Stato per il messaggio di successo
+  const [stateButton, setStateButton] = useState(true); // Stato per abilitare/disabilitare i pulsanti
+  const [errors, setErrors] = useState({}); // Stato per gli errori di validazione
 
-  const [show, setShow] = useState(false);
-  const [message, setMessage] = useState(false);
-  const [stateButton, setStateButton] = useState(true);
-  const [errors, setErrors] = useState({});
+  const handleClose = () => setShow(false); // Chiudi il modal
+  const handleShow = () => setShow(true); // Mostra il modal
 
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+  // Stato per il commento
   const [comment, setComment] = useState({
     name: authorLogin.name,
     email: authorLogin.email,
     content: ''
   });
 
-
+  // Gestisce i cambiamenti nei campi del form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComment({
@@ -40,6 +38,7 @@ function CreateComment({ id, updateComments }) {
     });
   };
 
+  // Validazione dei campi del form
   const validate = () => {
     const newErrors = {};
     if (!comment.content.trim()) {
@@ -48,10 +47,9 @@ function CreateComment({ id, updateComments }) {
     return newErrors;
   };
 
+  // Gestisce la sottomissione del form
   const handleSaveSubmit = async (e) => {
     e.preventDefault();
-
-    //console.log(comment);
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -76,7 +74,6 @@ function CreateComment({ id, updateComments }) {
         email: authorLogin.email,
         content: ''
       });
-      // Aggiorna i commenti nel componente padre con il nuovo commento
       updateComments((prevComments) => [...prevComments, comment]);
     } catch (error) {
       console.error('Dati non inviati correttamente', error);
@@ -89,6 +86,7 @@ function CreateComment({ id, updateComments }) {
     }
   };
 
+  // Resetta il form e chiude il modal
   const handleResetClose = () => {
     handleClose();
     setComment({
@@ -165,9 +163,7 @@ function CreateComment({ id, updateComments }) {
                 onChange={handleChange}
                 autoFocus
               />
-
               {errors.content && <p className='text-danger'>{errors.content}</p>}
-
             </Form.Group>
 
             {message && <Alert className='m-3 text-center' variant='success'>Comment created successfully...</Alert>}
@@ -201,4 +197,3 @@ function CreateComment({ id, updateComments }) {
 }
 
 export default CreateComment;
-
