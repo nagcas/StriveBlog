@@ -98,8 +98,8 @@ function LoggedIn() {
       </>
       ) : (
         <>
-          <Button as={Link} to='/register' variant='outline-primary btn-standard' className='me-3'><FaSignInAlt /> Register</Button>
-          <Button as={Link} to='/login' variant='outline-success btn-standard'><FaArrowRight /> LogIn</Button>
+          <Button as={Link} to='/register' variant='outline-primary btn-standard register-navbar' className='me-1'><FaSignInAlt /> Register</Button>
+          <Button as={Link} to='/login' variant='outline-success btn-standard login-navbar'><FaArrowRight /> LogIn</Button>
         </>
       )}
     </>

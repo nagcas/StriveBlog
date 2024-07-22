@@ -31,6 +31,10 @@
   font-size: 0.9rem;
 }
 
+.btn-theme {
+  width: 50px;
+}
+
 /* View Tablet and Desktop */
 @media (min-width: 767px) {
 

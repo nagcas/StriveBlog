@@ -2,10 +2,26 @@
   font-size: 0.7rem;
 }
 
+.register-navbar {
+  width: 80px;
+}
+
+.login-navbar {
+  width: 80px;
+}
+
 /* View Tablet and Desktop */
 @media (min-width: 767px) {
   .author-benvenuto {
     font-size: 1.0rem;
+  }
+
+  .register-navbar {
+    width: 120px;
+  }
+  
+  .login-navbar {
+    width: 120px;
   }
  
 }

@@ -34,7 +34,7 @@ const NavBar = (props) => {
         </Navbar.Collapse>
         <LoggedIn />
         {/* Bottone per cambiare il tema */}
-        <Button variant='dark' className='mx-3' onClick={() => {
+        <Button variant='dark' className='mx-1 btn-theme' onClick={() => {
           // Cambio del tema al click del bottone
           themeCtx === 'light' ? setThemeCtx('dark') : setThemeCtx('light');
         }}>
