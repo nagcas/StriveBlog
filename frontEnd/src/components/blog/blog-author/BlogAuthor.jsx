@@ -41,7 +41,7 @@ const BlogAuthor = ({ email }) => {
       </Col>
       <Col className="m-2">
         <div>di</div>
-        <h6 className="text-muted">{currentAuthor.name || email}</h6>
+        <h6 className="text-muted">{email}</h6>
       </Col>
     </Row>
   );
