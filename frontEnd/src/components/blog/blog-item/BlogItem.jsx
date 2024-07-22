@@ -1,5 +1,4 @@
 import './BlogItem.css'; // Importa lo stile specifico per il componente BlogItem
-
 import { Button, Card } from 'react-bootstrap'; // Importa i componenti Button e Card da react-bootstrap per creare l'interfaccia utente
 import { Link } from 'react-router-dom'; // Importa il componente Link da react-router-dom per la navigazione
 import BlogAuthor from '../blog-author/BlogAuthor'; // Importa il componente BlogAuthor per visualizzare i dettagli dell'autore del blog
@@ -7,13 +6,13 @@ import DeletePost from './DeletePost'; // Importa il componente DeletePost per g
 import { FaEdit } from 'react-icons/fa'; // Importa l'icona FaEdit da react-icons per il bottone di modifica
 import { Context } from '../../../modules/Context.js'; // Importa il contesto dell'applicazione per accedere alle informazioni di login
 import { useContext } from 'react'; // Importa il hook useContext da React per utilizzare il contesto
-import defaultCover from '../../../assets/blog_default.jpg';
+import defaultCover from '../../../assets/blog_default.jpg'; // Importa l'immagine di copertina di default
 
 const BlogItem = (props) => {
   
   // Destruttura le proprietà passate al componente BlogItem
   const { title, category, cover, author, _id, getFetchPosts } = props;
-  
+
   // Usa il hook useContext per accedere ai dati del contesto, inclusi authorLogin e isLoggedIn
   const { authorLogin, isLoggedIn } = useContext(Context);
 
@@ -25,8 +24,8 @@ const BlogItem = (props) => {
         {/* Immagine di copertina del post */}
         <Card.Img 
           variant='top' 
-          src={cover ? cover : defaultCover}
-          alt={cover ? 'Image cover' : 'Image cover default'}
+          src={cover !== 'null' ? cover : defaultCover} // Se cover è vuoto o nullo, mostra defaultCover
+          alt={cover !== 'null' ? 'Image cover' : 'Image cover default'} // Imposta l'attributo alt in base alla presenza della cover
           className='blog-cover' 
           />
         <Card.Body> {/* Corpo della Card */}
@@ -56,6 +55,7 @@ const BlogItem = (props) => {
 };
 
 export default BlogItem; // Esporta il componente BlogItem per l'uso in altri file
+
 
 
 

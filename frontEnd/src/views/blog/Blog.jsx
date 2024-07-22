@@ -10,7 +10,7 @@ import fetchWithAuth from '../../services/fetchWithAuth'; // Importa la funzione
 import { Context } from '../../modules/Context.js'; // Importa il contesto per lo stato di autenticazione.
 import { useContext } from 'react'; // Importa hook per accedere al contesto.
 import formatData from '../../services/formatDate.js'; // Importa la funzione per formattare le date.
-import defaultBlog from '../../assets/default-avatar.jpg'; // Importa l'immagine di default per il blog.
+import defaultCover from '../../assets/blog_default.jpg'; // Importa l'immagine di default per il blog.
 
 const Blog = () => {
   // Ottiene lo stato di autenticazione dal contesto.
@@ -71,8 +71,8 @@ const Blog = () => {
         {/* Immagine di copertura del blog */}
         <Image
           className='blog-details-cover'
-          src={blog.cover ? blog.cover : defaultBlog} // Mostra l'immagine di default se blog.cover non esiste.
-          alt={blog.title} // Fornisce un testo alternativo per l'immagine.
+          src={blog.cover !== 'null' ? blog.cover : defaultCover} // Mostra l'immagine di default se blog.cover non esiste.
+          alt={blog.cover !== 'null' ? blog.title : 'Image cover default'} // Imposta l'attributo alt in base alla presenza della cover
           fluid
         />
         <h1 className='blog-details-title'>{blog.title}</h1> {/* Titolo del blog */}
