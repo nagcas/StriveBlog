@@ -1,6 +1,6 @@
 .hero-section {
   margin-top: 80px;
-  position: relative;
+  /* position: relative; */
   height: 350px;
   display: flex;
   align-items: center;
@@ -11,7 +11,7 @@
 }
 
 .hero-content {
-  position: relative;
+  /* position: relative; */
   text-align: center;
   padding: 20px;
 }
@@ -26,7 +26,6 @@
   font-size: 0.9rem;
   margin-bottom: 20px;
 }
-
 
 /* View Tablet and Desktop */
 @media (min-width: 1439px) {

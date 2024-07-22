@@ -1,6 +1,5 @@
 body {
   font-family: "Ubuntu", sans-serif;
-  /* background-color: #e4e5e7ea; */
   background-color: #3983952d;
 }
 
@@ -11,7 +10,7 @@ body {
   gap: 0.5rem;
   border-radius: 15px;
   font-size: 0.8rem;
-  padding: 10px 20px;
+  padding: 8px 16px;
   text-transform: uppercase;
 }
 
