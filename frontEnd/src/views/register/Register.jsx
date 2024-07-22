@@ -1,7 +1,7 @@
 import './Register.css';
 
 import { useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import fetchWithAuth from '../../services/fetchWithAuth.js';
 import { FaArrowRight, FaRegTimesCircle } from 'react-icons/fa';
@@ -15,6 +15,7 @@ function Register() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState(false);
 
   const [register, setRegister] = useState({
     name: '',
@@ -91,19 +92,22 @@ function Register() {
         },
         body: JSON.stringify(register),
       });
+      setMessage(true);
     } catch (error) {
       console.log(error);
     } finally {
-      navigate('/login');
-      setRegister({
-        name: '',
-        lastname: '',
-        email: '',
-        birthdate: '',
-        avatar: '',
-        password: ''
-      });
-      alert('Registrazione avvenuta con successo');
+      setTimeout(() => {
+        setRegister({
+          name: '',
+          lastname: '',
+          email: '',
+          birthdate: '',
+          avatar: '',
+          password: ''
+        });
+        setMessage(false);
+        navigate('/login');
+      }, 1500);
     }
   };
 
@@ -196,6 +200,8 @@ function Register() {
           />
           {errors.password && <p className='text-danger'>{errors.password}</p>}
         </Form.Group>
+        
+        {message && <Alert className='m-3 text-center' variant='success'>Registration was successful...</Alert>}
 
         <Form.Group className='mt-3 btn-content'>
           <Button
