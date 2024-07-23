@@ -79,8 +79,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Connessione a MongoDB utilizzando l'URI presente nelle variabili d'ambiente
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Connected to MongoDB successfully"))
-  .catch((err) => console.error("Connection error to MongoDB - Details:", err));
+  .then(() => console.log('Connected to MongoDB successfully'))
+  .catch((err) => console.error('Connection error to MongoDB - Details:', err));
 
 // Definizione della porta su cui il server ascolterà, utilizzando le variabili d'ambiente o un valore di default
 const PORT = process.env.PORT || 5000;
